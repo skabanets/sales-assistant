@@ -1,11 +1,12 @@
+import { lazy } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 
 import { SharedLayout } from "../components";
 
-import AuthPage from "../pages/AuthPage";
-import UpworkFeedsPage from "../pages/UpworkFeedsPage";
-import FeedPage from "../pages/FeedPage";
-import ChatPage from "../pages/ChatPage";
+const AuthPage = lazy(() => import("../pages/AuthPage"));
+const UpworkFeedsPage = lazy(() => import("../pages/UpworkFeedsPage"));
+const FeedPage = lazy(() => import("../pages/FeedPage"));
+const ChatPage = lazy(() => import("../pages/ChatPage"));
 
 export const App = () => {
   const isLoggedIn = true;
