@@ -3,3 +3,4 @@ export * from "./Loader/Loader";
 export * from "./SharedLayout/SharedLayout";
 export * from "./CustomIcon/CustomIcon";
 export * from "./Logo/Logo";
+export * from "./LoginForm/LoginForm";
