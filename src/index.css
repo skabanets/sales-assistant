@@ -1,6 +1,6 @@
 /* Fonts */
 @font-face {
-  font-family: "Popins";
+  font-family: "Poppins";
   src: url("./assets/fonts/Poppins-Regular.woff2") format("woff2"),
     url("./assets/fonts/Poppins-Regular.woff") format("woff"),
     url("assets/fonts/Poppins-Regular.ttf") format("truetype");
@@ -9,7 +9,7 @@
 }
 
 @font-face {
-  font-family: "Popins";
+  font-family: "Poppins";
   src: url("./assets/fonts/Poppins-Medium.woff2") format("woff2"),
     url("./assets/fonts/Poppins-Medium.woff") format("woff"),
     url("./assets/fonts/Poppins-Medium.ttf") format("truetype");
@@ -18,7 +18,7 @@
 }
 
 @font-face {
-  font-family: "Popins";
+  font-family: "Poppins";
   src: url("./assets/fonts/Poppins-SemiBold.woff2") format("woff2"),
     url("./assets/fonts/Poppins-SemiBold.woff") format("woff"),
     url("./assets/fonts/Poppins-SemiBold.ttf") format("truetype");
@@ -28,6 +28,6 @@
 
 /* Common styles */
 body {
-  font-family: "Roboto", sans-serif;
+  font-family: "Poppins", sans-serif;
   line-height: 1.5;
 }
