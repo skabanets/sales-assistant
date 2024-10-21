@@ -19,6 +19,7 @@ export const darkTheme = createTheme({
       200: "#252733",
       300: "#414752",
       400: "#70737A",
+      500: "#8B8E94",
       600: "#B0B3B8",
       700: "#C9CED6",
       800: "#EBECF0",
@@ -37,22 +38,45 @@ export const darkTheme = createTheme({
       200: "#2D662D",
       250: "#295266",
     },
-    divider: "#70737A",
   },
   typography: {
-    fontFamily: "Popins, Roboto, sans-serif",
+    fontFamily: "Poppins, sans-serif",
     fontWeightRegular: 400,
     fontWeightMedium: 500,
     fontWeightBold: 600,
+    h1: {
+      color: "#EBECF0",
+      fontWeight: 500,
+    },
+    h2: {
+      color: "#C9CED6",
+      fontSize: "14px",
+      fontWeight: 600,
+      lineHeight: "20px",
+    },
   },
   components: {
+    MuiCssBaseline: {
+      styleOverrides: {
+        body: {
+          transition: "background-color 0.3s ease, color 0.3s ease",
+        },
+      },
+    },
     MuiButton: {
       styleOverrides: {
         root: {
+          display: "flex",
+          gap: "8px",
+          alignItems: "center",
+          padding: "12px 16px",
+          width: "100%",
+          fontSize: "16px",
+          lineHeight: "24px",
           fontWeight: 500,
-          backgroundColor: "#131314",
           color: "#EBECF0",
-          border: "2px solid #3760AD",
+          borderRadius: "8px",
+          textTransform: "none",
           "&:hover": {
             backgroundColor: "#181B29",
           },
@@ -60,16 +84,18 @@ export const darkTheme = createTheme({
             backgroundColor: "#3760AD",
           },
         },
-      },
-    },
-    MuiInputBase: {
-      styleOverrides: {
-        root: {
-          backgroundColor: "#131314",
-          borderColor: "#70737A",
-          "&.Mui-focused": {
-            borderColor: "#5B94FE",
+        contained: {
+          backgroundColor: "#5B94FE",
+          color: "#131314",
+          "&:hover": {
+            backgroundColor: "#5B94FE",
           },
+          "&:active": {
+            backgroundColor: "#5B94FE",
+          },
+        },
+        outlined: {
+          border: "2px solid #3760AD",
         },
       },
     },
