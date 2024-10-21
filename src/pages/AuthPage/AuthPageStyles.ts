@@ -33,4 +33,13 @@ export const layoutStyles = {
 export const asideStyles = {
   width: "440px",
   padding: "96px 60px",
+  display: "flex",
+  flexDirection: "column",
+  gap: "40px",
+};
+
+export const authPageTitle = {
+  fontSize: "32px",
+  lineHeight: "38.4px",
+  textAlign: "center",
 };
