@@ -64,6 +64,7 @@ export const LoginForm = () => {
           sx={inputStyles}
           {...register("email")}
           fullWidth
+          autoComplete="off"
         />
         {errors.email && (
           <Typography variant="caption" color="error" sx={errorMessageStyles}>
