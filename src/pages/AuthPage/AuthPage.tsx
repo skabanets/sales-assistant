@@ -1,8 +1,10 @@
 import Box from "@mui/material/Box";
-import { Typography, useTheme } from "@mui/material";
+import Typography from "@mui/material/Typography";
+import useTheme from "@mui/material/styles/useTheme";
+
+import { LoginForm, Logo } from "../../components";
 
 import { layoutStyles, asideStyles, getMainBgStyles, authPageTitle } from "./AuthPageStyles";
-import { LoginForm, Logo } from "../../components";
 
 const AuthPage = () => {
   const theme = useTheme();
