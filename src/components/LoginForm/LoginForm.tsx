@@ -23,9 +23,12 @@ import {
   fieldWrapperStyles,
   errorMessageStyles,
 } from "./LoginFormStyles";
+import { useAppDispatch } from "../../hooks";
+import { login } from "../../redux/auth/authOperations";
 
 export const LoginForm = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
 
   const {
     register,
@@ -40,8 +43,9 @@ export const LoginForm = () => {
   const handleClickShowPassword = () => setShowPassword(show => !show);
 
   const onSubmit: SubmitHandler<ILoginRequestDTO> = data => {
-    console.log(data);
-    reset();
+    dispatch(login(data))
+      .unwrap()
+      .then(() => reset());
   };
 
   return (
