@@ -17,6 +17,11 @@ export const saveTokens = (accessToken: string, refreshToken: string): void => {
   localStorage.setItem("refreshToken", refreshToken);
 };
 
+export const clearSavedTokens = (): void => {
+  localStorage.removeItem("accessToken");
+  localStorage.removeItem("refreshToken");
+};
+
 export const refreshAccessToken = async (refreshToken: string): Promise<string> => {
   const {
     data: {

@@ -22,7 +22,11 @@ const initialState: IAuthSlice = {
 const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    logout: () => {
+      return initialState;
+    },
+  },
   extraReducers: builder => {
     builder
       .addCase(refresh.pending, state => {
@@ -60,6 +64,7 @@ const authSlice = createSlice({
 });
 
 export const authReducer = authSlice.reducer;
+export const { logout } = authSlice.actions;
 export const {
   selectUserInfo,
   selectIsLoggedIn,
