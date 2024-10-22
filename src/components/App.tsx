@@ -1,11 +1,11 @@
-import { lazy } from "react";
+import { lazy, useEffect } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 
-import { SharedLayout } from "../components";
+import { Loader, SharedLayout } from "../components";
 import { PrivateRoute, PublicRoute } from "../routes";
 
-import { useAppSelector } from "../hooks";
-import { selectIsLoggedIn } from "../redux";
+import { useAppDispatch, useAppSelector } from "../hooks";
+import { refresh, selectIsLoggedIn, selectIsRefreshing } from "../redux";
 
 const AuthPage = lazy(() => import("../pages/AuthPage/AuthPage"));
 const UpworkFeedsPage = lazy(() => import("../pages/UpworkFeedsPage"));
@@ -13,10 +13,18 @@ const FeedPage = lazy(() => import("../pages/FeedPage"));
 const ChatPage = lazy(() => import("../pages/ChatPage"));
 
 export const App = () => {
+  const dispatch = useAppDispatch();
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
+  const isRefreshing = useAppSelector(selectIsRefreshing);
   const link = isLoggedIn ? "/upwork-feeds" : "/auth";
 
-  return (
+  useEffect(() => {
+    dispatch(refresh());
+  }, []);
+
+  return isRefreshing ? (
+    <Loader />
+  ) : (
     <Routes>
       <Route path="/" element={<SharedLayout />}>
         <Route
