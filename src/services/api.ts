@@ -11,3 +11,21 @@ export const setToken = (token: string): void => {
 export const clearToken = (): void => {
   api.defaults.headers.common.Authorization = ``;
 };
+
+export const saveTokens = (accessToken: string, refreshToken: string): void => {
+  localStorage.setItem("accessToken", accessToken);
+  localStorage.setItem("refreshToken", refreshToken);
+};
+
+export const refreshAccessToken = async (refreshToken: string): Promise<string> => {
+  const {
+    data: {
+      data: { access },
+    },
+  } = await api.put("/auth/token/refresh", { refreshToken });
+
+  saveTokens(access.accessToken, access.refreshToken);
+  setToken(access.accessToken);
+
+  return access.accessToken;
+};
