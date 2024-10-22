@@ -14,6 +14,8 @@ import InputAdornment from "@mui/material/InputAdornment";
 import { CustomIcon } from "../../components";
 
 import { loginFormSchema } from "../../schemas";
+import { useAppDispatch } from "../../hooks";
+import { login } from "../../redux";
 import { ILoginRequestDTO } from "../../interfaces-submodule/interfaces/dto/auth/iadmin-login-request.interface";
 import {
   formStyles,
@@ -23,8 +25,6 @@ import {
   fieldWrapperStyles,
   errorMessageStyles,
 } from "./LoginFormStyles";
-import { useAppDispatch } from "../../hooks";
-import { login } from "../../redux/auth/authOperations";
 
 export const LoginForm = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
