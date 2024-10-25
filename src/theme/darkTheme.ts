@@ -77,6 +77,7 @@ export const darkTheme = createTheme({
           color: "#EBECF0",
           borderRadius: "8px",
           textTransform: "none",
+          transition: "background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease",
           "&:hover": {
             backgroundColor: "#181B29",
           },
@@ -96,6 +97,19 @@ export const darkTheme = createTheme({
         },
         outlined: {
           border: "2px solid #3760AD",
+        },
+        text: {
+          padding: 0,
+          minWidth: 0,
+          width: "48px",
+          height: "48px",
+        },
+      },
+    },
+    MuiSvgIcon: {
+      styleOverrides: {
+        root: {
+          transition: "color 0.3s ease, stroke 0.3s ease",
         },
       },
     },
