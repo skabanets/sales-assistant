@@ -19,6 +19,7 @@ export const lightTheme = createTheme({
       200: "#EBECF0",
       300: "#D5D7DB",
       400: "#B0B3B8",
+      500: "#8A8D94",
       600: "#70737A",
       700: "#414752",
       800: "#252733",
@@ -39,19 +40,44 @@ export const lightTheme = createTheme({
     },
   },
   typography: {
-    fontFamily: "Popins, Roboto, sans-serif",
+    fontFamily: "Poppins, sans-serif",
     fontWeightRegular: 400,
     fontWeightMedium: 500,
     fontWeightBold: 600,
+    h1: {
+      color: "#252733",
+      fontWeight: 500,
+    },
+    h2: {
+      color: "#414752",
+      fontSize: "14px",
+      fontWeight: 600,
+      lineHeight: "20px",
+    },
   },
   components: {
+    MuiCssBaseline: {
+      styleOverrides: {
+        body: {
+          transition: "background-color 0.3s ease, color 0.3s ease",
+        },
+      },
+    },
     MuiButton: {
       styleOverrides: {
         root: {
+          display: "flex",
+          gap: "8px",
+          alignItems: "center",
+          padding: "12px 16px",
+          width: "100%",
+          fontSize: "16px",
+          lineHeight: "24px",
           fontWeight: 500,
-          backgroundColor: "#FFFFFF",
           color: "#252733",
-          border: "2px solid #ABBDE0",
+          borderRadius: "8px",
+          textTransform: "none",
+          transition: "background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease",
           "&:hover": {
             backgroundColor: "#F0F5FF",
           },
@@ -59,16 +85,31 @@ export const lightTheme = createTheme({
             backgroundColor: "#ABBDE0",
           },
         },
+        contained: {
+          backgroundColor: "#0F62FE",
+          color: "#FFFFFF",
+          "&:hover": {
+            backgroundColor: "#0F62FE",
+          },
+          "&:active": {
+            backgroundColor: "#0F62FE",
+          },
+        },
+        outlined: {
+          border: "2px solid #ABBDE0",
+        },
+        text: {
+          padding: 0,
+          minWidth: 0,
+          width: "48px",
+          height: "48px",
+        },
       },
     },
-    MuiInputBase: {
+    MuiSvgIcon: {
       styleOverrides: {
         root: {
-          backgroundColor: "#FFFFFF",
-          borderColor: "#B0B3B8",
-          "&.Mui-focused": {
-            borderColor: "#0F62FE",
-          },
+          transition: "color 0.3s ease, stroke 0.3s ease",
         },
       },
     },
