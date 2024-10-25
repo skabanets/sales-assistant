@@ -8,24 +8,36 @@ import { darkTheme, lightTheme } from "../theme";
 interface IThemeContextProps {
   themeMode: ThemeMode;
   toggleTheme: () => void;
+  isSidebarOpen: boolean;
+  toggleSidebar: () => void;
 }
 
-interface IThemeContextProviderRrops {
+interface IThemeContextProviderProps {
   children: React.ReactNode;
 }
 
 export const ThemeContext = createContext<IThemeContextProps | undefined>(undefined);
 
-const ThemeContextProvider: FC<IThemeContextProviderRrops> = ({ children }) => {
+const ThemeContextProvider: FC<IThemeContextProviderProps> = ({ children }) => {
   const storedTheme = localStorage.getItem("theme") as ThemeMode | null;
+  const storedSidebarState = localStorage.getItem("isSidebarOpen") === "true";
   const [themeMode, setThemeMode] = useState<ThemeMode>(storedTheme || ThemeMode.LIGHT);
+  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(storedSidebarState || true);
 
   useEffect(() => {
     localStorage.setItem("theme", themeMode);
   }, [themeMode]);
 
+  useEffect(() => {
+    localStorage.setItem("isSidebarOpen", JSON.stringify(isSidebarOpen));
+  }, [isSidebarOpen]);
+
   const toggleTheme = () => {
     setThemeMode(prevMode => (prevMode === ThemeMode.LIGHT ? ThemeMode.DARK : ThemeMode.LIGHT));
+  };
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(prevState => !prevState);
   };
 
   const theme = useMemo(
@@ -34,7 +46,7 @@ const ThemeContextProvider: FC<IThemeContextProviderRrops> = ({ children }) => {
   );
 
   return (
-    <ThemeContext.Provider value={{ themeMode, toggleTheme }}>
+    <ThemeContext.Provider value={{ themeMode, toggleTheme, isSidebarOpen, toggleSidebar }}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         {children}
