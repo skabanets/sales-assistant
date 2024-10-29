@@ -1,16 +1,13 @@
-import axios from "axios";
+import { BaseQueryFn, fetchBaseQuery } from "@reduxjs/toolkit/query";
 
-export const api = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL as string,
-});
+import { IAccessDTO } from "../interfaces-submodule/interfaces/dto/auth/iaccess.interface";
+import { logout } from "../redux";
 
-export const setToken = (token: string): void => {
-  api.defaults.headers.common.Authorization = `Bearer ${token}`;
-};
-
-export const clearToken = (): void => {
-  api.defaults.headers.common.Authorization = ``;
-};
+interface IRefreshResponse {
+  data: {
+    access: IAccessDTO;
+  };
+}
 
 export const saveTokens = (accessToken: string, refreshToken: string): void => {
   localStorage.setItem("accessToken", accessToken);
@@ -22,15 +19,51 @@ export const clearSavedTokens = (): void => {
   localStorage.removeItem("refreshToken");
 };
 
-export const refreshAccessToken = async (refreshToken: string): Promise<string> => {
-  const {
-    data: {
-      data: { access },
-    },
-  } = await api.put("/auth/token/refresh", { refreshToken });
+const setAuthorizationHeader = (headers: Headers): void => {
+  const accessToken = localStorage.getItem("accessToken");
+  if (accessToken) headers.set("Authorization", `Bearer ${accessToken}`);
+};
 
-  saveTokens(access.accessToken, access.refreshToken);
-  setToken(access.accessToken);
+export const baseQueryWithAuth = fetchBaseQuery({
+  baseUrl: import.meta.env.VITE_API_BASE_URL as string,
+  prepareHeaders: headers => {
+    setAuthorizationHeader(headers);
+    return headers;
+  },
+});
 
-  return access.accessToken;
+export const authenticatedBaseQuery: BaseQueryFn = async (args, api, extraOptions) => {
+  let result = await baseQueryWithAuth(args, api, extraOptions);
+
+  if (result.error && (result.error.status === 401 || result.error.status === 403)) {
+    const refreshToken = localStorage.getItem("refreshToken");
+
+    if (refreshToken) {
+      const refreshResult = await baseQueryWithAuth(
+        {
+          url: "/auth/token/refresh",
+          method: "PUT",
+          body: { refreshToken },
+        },
+        api,
+        extraOptions
+      );
+
+      const responseData = refreshResult.data as IRefreshResponse;
+
+      if (responseData.data) {
+        const newAccessToken = responseData.data.access.accessToken;
+        const newRefreshToken = responseData.data.access.refreshToken;
+        saveTokens(newAccessToken, newRefreshToken);
+
+        result = await baseQueryWithAuth(args, api, extraOptions);
+      } else {
+        api.dispatch(logout());
+      }
+    } else {
+      api.dispatch(logout());
+    }
+  }
+
+  return result;
 };

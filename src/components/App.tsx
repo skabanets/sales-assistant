@@ -5,7 +5,8 @@ import { Loader, SharedLayout } from "../components";
 import { PrivateRoute, PublicRoute } from "../routes";
 
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { refresh, selectIsLoggedIn, selectIsRefreshing } from "../redux";
+import { selectIsLoggedIn, setUserInfo } from "../redux";
+import { useRecoverUserQuery } from "../services";
 
 const AuthPage = lazy(() => import("../pages/AuthPage/AuthPage"));
 const UpworkFeedsPage = lazy(() => import("../pages/UpworkFeedsPage"));
@@ -13,18 +14,25 @@ const FeedPage = lazy(() => import("../pages/FeedPage"));
 const ChatPage = lazy(() => import("../pages/ChatPage"));
 
 export const App = () => {
-  const dispatch = useAppDispatch();
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
-  const isRefreshing = useAppSelector(selectIsRefreshing);
+  const dispatch = useAppDispatch();
+
   const link = isLoggedIn ? "/upwork-feeds" : "/auth";
+  const { data: userInfo, isLoading } = useRecoverUserQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
 
   useEffect(() => {
-    dispatch(refresh());
-  }, []);
+    if (userInfo) {
+      dispatch(setUserInfo(userInfo));
+    }
+  }, [dispatch, userInfo]);
 
-  return isRefreshing ? (
-    <Loader />
-  ) : (
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  return (
     <Routes>
       <Route path="/" element={<SharedLayout />}>
         <Route
