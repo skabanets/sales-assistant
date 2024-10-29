@@ -1,6 +1,3 @@
-import { useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
@@ -13,11 +10,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 
 import { CustomIcon } from "../../components";
 
-import { loginFormSchema } from "../../schemas";
-import { useAppDispatch } from "../../hooks";
-import { setUserInfo } from "../../redux";
-import { useLoginMutation } from "../../services";
-import { ILoginRequestDTO } from "../../interfaces-submodule/interfaces/dto/auth/iadmin-login-request.interface";
+import { useLoginForm } from "../../hooks";
 import {
   formStyles,
   deviderStyles,
@@ -28,33 +21,8 @@ import {
 } from "./LoginFormStyles";
 
 export const LoginForm = () => {
-  const [showPassword, setShowPassword] = useState<boolean>(false);
-  const dispatch = useAppDispatch();
-  const [login] = useLoginMutation();
-
-  const {
-    register,
-    reset,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<ILoginRequestDTO>({
-    mode: "onSubmit",
-    resolver: yupResolver(loginFormSchema),
-  });
-
-  const handleClickShowPassword = () => setShowPassword(show => !show);
-
-  const onSubmit: SubmitHandler<ILoginRequestDTO> = async credentials => {
-    await login(credentials)
-      .unwrap()
-      .then(data => {
-        dispatch(setUserInfo(data));
-        reset();
-      })
-      .catch(error => {
-        console.error("Login failed:", error);
-      });
-  };
+  const { showPassword, handleClickShowPassword, register, handleSubmit, onSubmit, errors } =
+    useLoginForm();
 
   return (
     <Box component="form" sx={formStyles} onSubmit={handleSubmit(onSubmit)}>
