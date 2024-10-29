@@ -15,7 +15,8 @@ import { CustomIcon } from "../../components";
 
 import { loginFormSchema } from "../../schemas";
 import { useAppDispatch } from "../../hooks";
-import { login } from "../../redux";
+import { setUserInfo } from "../../redux";
+import { useLoginMutation } from "../../services";
 import { ILoginRequestDTO } from "../../interfaces-submodule/interfaces/dto/auth/iadmin-login-request.interface";
 import {
   formStyles,
@@ -29,6 +30,7 @@ import {
 export const LoginForm = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const dispatch = useAppDispatch();
+  const [login] = useLoginMutation();
 
   const {
     register,
@@ -42,10 +44,16 @@ export const LoginForm = () => {
 
   const handleClickShowPassword = () => setShowPassword(show => !show);
 
-  const onSubmit: SubmitHandler<ILoginRequestDTO> = data => {
-    dispatch(login(data))
+  const onSubmit: SubmitHandler<ILoginRequestDTO> = async credentials => {
+    await login(credentials)
       .unwrap()
-      .then(() => reset());
+      .then(data => {
+        dispatch(setUserInfo(data));
+        reset();
+      })
+      .catch(error => {
+        console.error("Login failed:", error);
+      });
   };
 
   return (
