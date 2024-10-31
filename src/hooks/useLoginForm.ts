@@ -5,8 +5,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useAppDispatch } from "../hooks";
 import { useLoginMutation } from "../services";
 import { setUserInfo } from "../redux";
-import { loginFormSchema } from "./../schemas/loginFormSchema";
-import { ILoginRequestDTO } from "./../interfaces-submodule/interfaces/dto/auth/iadmin-login-request.interface";
+import { loginFormSchema } from "../schemas/loginFormSchema";
+import { ILoginRequestDTO } from "../interfaces-submodule/interfaces/dto/auth/iadmin-login-request.interface";
 
 export const useLoginForm = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
