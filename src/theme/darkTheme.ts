@@ -29,14 +29,12 @@ export const darkTheme = createTheme({
       100: "#181B29",
       500: "#3E7FFF",
     },
-    white: "#131314",
-    black: "#FFFFFF",
     score: {
-      0: "#7A2C39",
-      100: "#6B3920",
-      150: "#705C0B",
-      200: "#2D662D",
-      250: "#295266",
+      low: "#7A2C39",
+      midLow: "#6B3920",
+      mid: "#705C0B",
+      midHigh: "#2D662D",
+      high: "#295266",
     },
   },
   typography: {
@@ -101,8 +99,6 @@ export const darkTheme = createTheme({
         text: {
           padding: 0,
           minWidth: 0,
-          width: "48px",
-          height: "48px",
         },
       },
     },
@@ -110,6 +106,17 @@ export const darkTheme = createTheme({
       styleOverrides: {
         root: {
           transition: "color 0.3s ease, stroke 0.3s ease",
+        },
+      },
+    },
+    MuiMenu: {
+      styleOverrides: {
+        paper: {
+          width: "288px",
+          boxShadow: "0px 4px 16px -2px rgba(0, 0, 0, 0.16)",
+          backgroundColor: "background.paper",
+          borderRadius: "8px",
+          border: "1px solid #414752",
         },
       },
     },

@@ -18,14 +18,12 @@ declare module "@mui/material/styles/createPalette" {
       500: string;
     };
     score: {
-      0: string;
-      100: string;
-      150: string;
-      200: string;
-      250: string;
+      low: string;
+      midLow: string;
+      mid: string;
+      midHigh: string;
+      high: string;
     };
-    white: string;
-    black: string;
   }
 
   interface PaletteOptions {
@@ -45,13 +43,11 @@ declare module "@mui/material/styles/createPalette" {
       500?: string;
     };
     score?: {
-      0?: string;
-      100?: string;
-      150?: string;
-      200?: string;
-      250?: string;
+      low?: string;
+      midLow?: string;
+      mid?: string;
+      midHigh?: string;
+      high?: string;
     };
-    white?: string;
-    black?: string;
   }
 }

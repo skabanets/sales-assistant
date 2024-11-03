@@ -29,14 +29,12 @@ export const lightTheme = createTheme({
       100: "#F0F5FF",
       500: "#3E7FFF",
     },
-    white: "#FFFFFF",
-    black: "#131314",
     score: {
-      0: "#FAC8D0",
-      100: "#FAD2B4",
-      150: "#F0E4A8",
-      200: "#C9F0C9",
-      250: "#C4E5F5",
+      low: "#FAC8D0",
+      midLow: "#FAD2B4",
+      mid: "#F0E4A8",
+      midHigh: "#C9F0C9",
+      high: "#C4E5F5",
     },
   },
   typography: {
@@ -101,8 +99,6 @@ export const lightTheme = createTheme({
         text: {
           padding: 0,
           minWidth: 0,
-          width: "48px",
-          height: "48px",
         },
       },
     },
@@ -110,6 +106,17 @@ export const lightTheme = createTheme({
       styleOverrides: {
         root: {
           transition: "color 0.3s ease, stroke 0.3s ease",
+        },
+      },
+    },
+    MuiMenu: {
+      styleOverrides: {
+        paper: {
+          width: "288px",
+          boxShadow: "0px 4px 16px -2px rgba(0, 0, 0, 0.16)",
+          backgroundColor: "background.paper",
+          borderRadius: "8px",
+          border: "1px solid #D5D7DB",
         },
       },
     },
