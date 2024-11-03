@@ -3,11 +3,11 @@ import SvgIcon, { SvgIconProps } from "@mui/material/SvgIcon";
 
 import Sprite from "../../assets/sprite.svg";
 
-interface IProps extends SvgIconProps {
+interface ICustomIconProps extends SvgIconProps {
   iconName: string;
 }
 
-export const CustomIcon: FC<IProps> = (props: IProps) => {
+export const CustomIcon: FC<ICustomIconProps> = props => {
   const { iconName, ...rest } = props;
   return (
     <SvgIcon {...rest}>
