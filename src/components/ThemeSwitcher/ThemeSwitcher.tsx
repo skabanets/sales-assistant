@@ -6,6 +6,7 @@ import { CustomIcon } from "../CustomIcon/CustomIcon";
 import { ThemeContext } from "../../context/ThemeContext";
 import { themeIconStyles } from "./ThemeSwitcherStyles";
 import { ThemeMode } from "../../constants";
+import { switcherBtnStyles } from "../../theme";
 
 export const ThemeSwitcher = () => {
   const themeContext = useContext(ThemeContext);
@@ -17,7 +18,7 @@ export const ThemeSwitcher = () => {
   const { themeMode, toggleTheme } = themeContext;
 
   return (
-    <Button variant="text" type="button" onClick={toggleTheme}>
+    <Button type="button" onClick={toggleTheme} sx={switcherBtnStyles}>
       <CustomIcon
         iconName={themeMode === ThemeMode.LIGHT ? "dark-mode" : "light-mode"}
         htmlColor="gray.800"
