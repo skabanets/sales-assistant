@@ -21,7 +21,9 @@ export const clearSavedTokens = (): void => {
 
 const setAuthorizationHeader = (headers: Headers): void => {
   const accessToken = localStorage.getItem("accessToken");
-  if (accessToken) headers.set("Authorization", `Bearer ${accessToken}`);
+  if (accessToken) {
+    headers.set("Authorization", `Bearer ${accessToken}`);
+  }
 };
 
 export const baseQueryWithAuth = fetchBaseQuery({
@@ -43,27 +45,35 @@ export const authenticatedBaseQuery: BaseQueryFn = async (args, api, extraOption
         {
           url: "/auth/token/refresh",
           method: "PUT",
-          body: { refreshToken },
+          body: { token: refreshToken },
         },
         api,
         extraOptions
       );
 
+      if (refreshResult.error) {
+        handleLogout(api);
+        return refreshResult;
+      }
+
       const responseData = refreshResult.data as IRefreshResponse;
 
       if (responseData.data) {
-        const newAccessToken = responseData.data.access.accessToken;
-        const newRefreshToken = responseData.data.access.refreshToken;
-        saveTokens(newAccessToken, newRefreshToken);
-
+        const { accessToken, refreshToken } = responseData.data.access;
+        saveTokens(accessToken, refreshToken);
         result = await baseQueryWithAuth(args, api, extraOptions);
       } else {
-        api.dispatch(logout());
+        handleLogout(api);
       }
     } else {
-      api.dispatch(logout());
+      handleLogout(api);
     }
   }
 
   return result;
+};
+
+const handleLogout = (api: any) => {
+  api.dispatch(logout());
+  clearSavedTokens();
 };
