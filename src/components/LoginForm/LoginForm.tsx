@@ -14,11 +14,11 @@ import { useLoginForm } from "../../hooks";
 import {
   formStyles,
   deviderStyles,
-  inputStyles,
   passwordIconStyles,
-  fieldWrapperStyles,
   errorMessageStyles,
+  inputStyles,
 } from "./LoginFormStyles";
+import { fieldWrapperStyles } from "../../theme";
 
 export const LoginForm = () => {
   const { showPassword, handleClickShowPassword, register, handleSubmit, onSubmit, errors } =
