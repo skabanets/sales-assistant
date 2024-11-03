@@ -38,6 +38,6 @@ export const modalBtnStyles = {
 };
 
 export const switcherBtnStyles = {
-  with: "48px",
+  width: "48px",
   height: "48px",
 };
