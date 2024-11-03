@@ -9,6 +9,10 @@ export const layoutStyles = {
 
 export const headerStyles = { gridArea: "head" };
 
-export const asideStyles = { gridArea: "aside" };
+export const asideStyles = {
+  gridArea: "aside",
+  width: "320px",
+  backgroundColor: "background.paper",
+};
 
 export const mainStyles = { gridArea: "main" };
