@@ -12,6 +12,7 @@ export const SidebarSwitcher = () => {
   if (!themeContext) {
     throw new Error("ThemeSwitcher must be used within a ThemeContextProvider");
   }
+
   const { isSidebarOpen, toggleSidebar } = themeContext;
 
   return (

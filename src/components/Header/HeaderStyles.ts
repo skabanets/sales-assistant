@@ -1,5 +1,6 @@
 export const headerStyles = {
-  padding: "8px 12px",
+  gridArea: "head",
+  padding: "12px 8px",
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
