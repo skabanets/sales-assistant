@@ -11,8 +11,7 @@ import {
   closedSidebarStyles,
   layoutStylesWithSidebar,
   layoutStylesWithoutSidebar,
-  mainStylesWithSidebar,
-  mainStylesWithoutSidebar,
+  mainStyles,
   openSidebarStyles,
 } from "./SharedLayoutStyles";
 
@@ -35,10 +34,7 @@ export const SharedLayout = () => {
           <Box component="aside" sx={isSidebarOpen ? openSidebarStyles : closedSidebarStyles}>
             <Sidebar />
           </Box>
-          <Box
-            component="main"
-            sx={isSidebarOpen ? mainStylesWithSidebar : mainStylesWithoutSidebar}
-          >
+          <Box component="main" sx={mainStyles}>
             <Suspense fallback={<Loader />}>
               <Outlet />
             </Suspense>

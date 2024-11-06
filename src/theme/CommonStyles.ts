@@ -3,6 +3,7 @@ export const fieldWrapperStyles = {
 };
 
 export const navLinkStyles = {
+  width: "288px",
   color: "gray.800",
   height: "48px",
   display: "flex",
