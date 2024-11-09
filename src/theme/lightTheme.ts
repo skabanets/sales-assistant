@@ -1,4 +1,5 @@
 import { createTheme } from "@mui/material/styles";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 export const lightTheme = createTheme({
   palette: {
@@ -67,8 +68,10 @@ export const lightTheme = createTheme({
           display: "flex",
           gap: "8px",
           alignItems: "center",
+          justifyContent: "center",
           padding: "12px 16px",
           width: "100%",
+          height: "48px",
           fontSize: "16px",
           lineHeight: "24px",
           fontWeight: 500,
@@ -117,6 +120,37 @@ export const lightTheme = createTheme({
           backgroundColor: "background.paper",
           borderRadius: "8px",
           border: "1px solid #D5D7DB",
+        },
+      },
+    },
+    MuiSelect: {
+      defaultProps: {
+        IconComponent: KeyboardArrowDownIcon,
+      },
+      styleOverrides: {
+        root: {
+          backgroundColor: "#FFFFFF",
+          lineHeight: 1.5,
+          border: "1px solid #B0B3B8",
+          padding: "12px",
+          height: "44px",
+          borderRadius: "8px",
+          transition: "background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease",
+          "&.Mui-focused": {
+            borderColor: "#0F62FE",
+          },
+          "&.MuiSelect-open": {
+            borderColor: "#0F62FE",
+          },
+        },
+        select: {
+          backgroundColor: "transparent",
+          padding: 0,
+        },
+        icon: {
+          color: "#252733",
+          height: "24px",
+          width: "24px",
         },
       },
     },
