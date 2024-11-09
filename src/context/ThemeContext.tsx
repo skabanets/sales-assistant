@@ -22,14 +22,14 @@ const ThemeContextProvider: FC<IThemeContextProviderProps> = ({ children }) => {
   const storedTheme = localStorage.getItem("theme") as ThemeMode | null;
   const storedSidebarState = localStorage.getItem("isSidebarOpen") === "true";
   const [themeMode, setThemeMode] = useState<ThemeMode>(storedTheme || ThemeMode.LIGHT);
-  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(storedSidebarState || true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(storedSidebarState || false);
 
   useEffect(() => {
     localStorage.setItem("theme", themeMode);
   }, [themeMode]);
 
   useEffect(() => {
-    localStorage.setItem("isSidebarOpen", JSON.stringify(isSidebarOpen));
+    localStorage.setItem("isSidebarOpen", isSidebarOpen.toString());
   }, [isSidebarOpen]);
 
   const toggleTheme = () => {
