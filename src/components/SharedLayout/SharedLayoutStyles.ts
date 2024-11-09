@@ -42,6 +42,6 @@ export const closedSidebarStyles = {
 
 export const mainStyles = {
   gridArea: "main",
-  padding: "0 32px",
+  margin: "0 auto",
   height: "calc(100vh - 72px)",
 };

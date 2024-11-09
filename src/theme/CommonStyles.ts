@@ -42,3 +42,9 @@ export const switcherBtnStyles = {
   width: "48px",
   height: "48px",
 };
+
+export const formControlStyles = {
+  "& fieldset": {
+    border: "none",
+  },
+};
