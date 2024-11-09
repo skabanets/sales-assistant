@@ -15,3 +15,4 @@ export * from "./EditChatContent/EditChatContent";
 export * from "./DeleteChatContent/DeleteChatContent";
 export * from "./UserMenu/UserMenu";
 export * from "./Sidebar/Sidebar";
+export * from "./FeedControlPanel/FeedControlPanel";
