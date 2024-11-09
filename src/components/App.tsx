@@ -9,7 +9,7 @@ import { selectIsLoggedIn, setUserInfo } from "../redux";
 import { useRecoverUserQuery } from "../services";
 
 const AuthPage = lazy(() => import("../pages/AuthPage/AuthPage"));
-const UpworkFeedsPage = lazy(() => import("../pages/UpworkFeedsPage"));
+const UpworkFeedPage = lazy(() => import("../pages/UpworkFeedsPage/UpworkFeedsPage"));
 const FeedPage = lazy(() => import("../pages/FeedPage"));
 const ChatPage = lazy(() => import("../pages/ChatPage"));
 
@@ -47,7 +47,7 @@ export const App = () => {
           path="/upwork-feeds"
           element={
             <PrivateRoute>
-              <UpworkFeedsPage />
+              <UpworkFeedPage />
             </PrivateRoute>
           }
         />
