@@ -69,9 +69,9 @@ export const inputStyles = (theme: Theme) => {
   };
 };
 
-export const passwordIconStyles = {
-  stroke: "gray.600",
-};
+export const passwordIconStyles = (theme: Theme) => ({
+  stroke: theme.palette.gray[600],
+});
 
 export const errorMessageStyles = {
   position: "absolute",
