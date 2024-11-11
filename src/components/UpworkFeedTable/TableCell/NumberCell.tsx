@@ -10,6 +10,8 @@ interface INumberCellProps {
 
 export const NumberCell: FC<INumberCellProps> = ({ value }) => (
   <Box sx={smallCellStyles}>
-    <Typography sx={ordinaryTextStyles}>{value}</Typography>
+    {value !== undefined && value !== null && (
+      <Typography sx={ordinaryTextStyles}>{value}</Typography>
+    )}
   </Box>
 );
