@@ -1,3 +1,4 @@
+import { FC } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import FormControl from "@mui/material/FormControl";
@@ -14,7 +15,11 @@ import {
 } from "./FeedControlPanelStyles";
 import { formControlStyles } from "../../theme";
 
-export const FeedControlPanel = () => {
+interface IFeedControlPanelProps {
+  refetch: () => void;
+}
+
+export const FeedControlPanel: FC<IFeedControlPanelProps> = ({ refetch }) => {
   return (
     <Box sx={controlPanelStyles}>
       <FormControl sx={formControlStyles}>
@@ -45,7 +50,7 @@ export const FeedControlPanel = () => {
           ))}
         </Select>
       </FormControl>
-      <Button variant="outlined" sx={refreshBtnStyles}>
+      <Button variant="outlined" sx={refreshBtnStyles} onClick={refetch}>
         <CustomIcon iconName="refresh" />
         Refresh RSS
       </Button>
