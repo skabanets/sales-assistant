@@ -32,7 +32,7 @@ export const useUniversalSearchParams = () => {
         let params: IParams | ISortOption | {} = {};
 
         if (typeof key === "object") {
-          params = { ...key, page: 1 };
+          params = { ...key };
         } else {
           if (Array.isArray(value)) {
             value = value.join(",");
