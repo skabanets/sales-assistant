@@ -4,3 +4,4 @@ export * from "./useModal";
 export * from "./useEscapeKeyClose";
 export * from "./useEditChatForm";
 export * from "./useMenu";
+export * from "./useUniversalSearchParams";
