@@ -6,10 +6,11 @@ import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import ImportExportIcon from "@mui/icons-material/ImportExport";
 
 import { SortLabelStyles, headerTextWrapper, sortIconStyles } from "../UpworkFeedTableStyles";
+import { SortDirection } from "../../../interfaces-submodule/enums/common/sort-direction.enum";
 
 interface ISortLabelProps {
   headerTitle: string;
-  isSorted: "asc" | "desc" | null;
+  isSorted: SortDirection | null | undefined;
   onSortChange: () => void;
 }
 
@@ -19,13 +20,13 @@ export const SortLabel: FC<ISortLabelProps> = ({ headerTitle, isSorted, onSortCh
       <TableSortLabel
         sx={SortLabelStyles}
         active={isSorted !== null}
-        direction={isSorted === "desc" ? "desc" : "asc"}
+        direction={isSorted === SortDirection.DESC ? SortDirection.DESC : SortDirection.ASC}
         IconComponent={() => null}
         onClick={onSortChange}
       >
         {headerTitle}
         {isSorted ? (
-          isSorted === "asc" ? (
+          isSorted === SortDirection.ASC ? (
             <ArrowUpwardIcon sx={sortIconStyles} />
           ) : (
             <ArrowDownwardIcon sx={sortIconStyles} />
