@@ -15,20 +15,19 @@ export const authApi = createApi({
         method: "POST",
         body: credentials,
       }),
-      transformResponse: (response: { data: ILoginResponseDTO }) => {
-        const accessToken = response.data.access.accessToken;
-        const refreshToken = response.data.access.refreshToken;
-        const userAccount = response.data.account;
+      transformResponse: ({ data }: { data: ILoginResponseDTO }) => {
+        const {
+          access: { accessToken, refreshToken },
+          account,
+        } = data;
 
         saveTokens(accessToken, refreshToken);
-        return userAccount;
+        return account;
       },
     }),
     recoverUser: builder.query<IAccountDTO, void>({
       query: () => "/auth/recover-user",
-      transformResponse: (response: { data: { account: IAccountDTO } }) => {
-        return response.data.account;
-      },
+      transformResponse: ({ data }: { data: { account: IAccountDTO } }) => data.account,
     }),
   }),
 });
