@@ -1,5 +1,6 @@
-import { useCallback, useMemo, useState } from "react";
+import { FC, useEffect, useMemo, useState } from "react";
 import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
+import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -9,63 +10,59 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 
 import { SortLabel } from "./SortLabel/SortLabel";
-import { TitleFilterInput } from "./TitleFilterInput/TitleFilterInput";
+import { TitleFilterInput } from "./TitleInput/TitleInput";
+import { DateSelector } from "./DateSelector/DateSelector";
+import { OptionSelector } from "./OptionSelector/OptionSelector";
 import { DateCell, KeywordsCell, NumberCell, ScoreCell, TitleCell } from "./TableCell";
 
 import { IUpworkFeedItemDTO } from "../../interfaces-submodule/interfaces/dto/upwork-feed/iupwork-feed-item.dto";
+import { UpworkFeedSearchBy } from "../../interfaces-submodule/enums/upwork-feed/upwork-feed-search-by.enum";
+import { UpworkFeedSortBy } from "../../interfaces-submodule/enums/upwork-feed/upwork-feed-sort-by.enum";
+import { SortDirection } from "../../interfaces-submodule/enums/common/sort-direction.enum";
+import { keywordOptions, scoreOptions } from "../../constants";
+import { useUniversalSearchParams } from "../../hooks";
+import { ISortOption } from "../../types";
 import {
   headerTextWrapper,
+  largeCellStyles,
+  mediumCellStyles,
+  messageBoxStyles,
   ordinaryTextStyles,
+  tableBodyStyles,
   tableContainerStyles,
-  tableHeadStyles,
+  tableHeaderStyles,
   tableRowCellStyles,
   tableRowStyles,
   tablestyles,
 } from "./UpworkFeedTableStyles";
 
-const data = [
-  {
-    id: "6ceebd49-339e-4cd4-acdc-3f6e1c835c06",
-    url: "https://www.upwork.com/jobs/Freelance-Frontend-Software-Engineer-React-Timer-Component_%7E01324b4e1239d722e7?source=rss",
-    title: "Freelance Frontend Software Engineer - React Timer Component - Upwork",
-    published: "2023-11-17T22:27:55.000Z",
-    keywords: [
-      "Frontend development",
-      "JavaScript",
-      "Typescript",
-      "React.js",
-      "Tailwind CSS",
-      "Bootstrap",
-      "CSS frameworks",
-      "Redux",
-      "Node.js",
-    ],
-    score: 29,
-    matchedCases: 8,
-    matchedBlogs: 1,
-    accountId: 1,
-    presetId: "2126eb63-45d7-4af2-a65b-073c3b362039",
-  },
-];
+export interface IUpworkFeedTableProps {
+  items: IUpworkFeedItemDTO[];
+}
 
-export const UpworkFeedTable = () => {
-  const [sortState, setSortState] = useState<{
-    sortBy: string | null;
-    sortDirection: "asc" | "desc" | null;
-  }>({
-    sortBy: null,
-    sortDirection: null,
-  });
+export const UpworkFeedTable: FC<IUpworkFeedTableProps> = ({ items }) => {
+  const navigate = useNavigate();
+  const { searchParams, setParam } = useUniversalSearchParams();
 
-  const handleSortChange = (accessorKey: string) => {
+  const initialSortState = {
+    sortBy: (searchParams.get("sortBy") as UpworkFeedSortBy) || null,
+    sortDirection: (searchParams.get("sortDirection") as SortDirection) || null,
+  };
+  const [sortState, setSortState] = useState<ISortOption>(initialSortState);
+
+  useEffect(() => {
+    setParam(sortState);
+  }, [sortState]);
+
+  const handleSortChange = (accessorKey: UpworkFeedSortBy) => {
     setSortState(prevState => {
       if (prevState.sortBy === accessorKey) {
         const newDirection =
-          prevState.sortDirection === "asc"
-            ? "desc"
-            : prevState.sortDirection === "desc"
+          prevState.sortDirection === SortDirection.ASC
+            ? SortDirection.DESC
+            : prevState.sortDirection === SortDirection.DESC
             ? null
-            : "asc";
+            : SortDirection.ASC;
 
         return {
           sortBy: newDirection ? accessorKey : null,
@@ -74,73 +71,69 @@ export const UpworkFeedTable = () => {
       } else {
         return {
           sortBy: accessorKey,
-          sortDirection: "asc",
+          sortDirection: SortDirection.ASC,
         };
       }
     });
   };
-
-  const [value, setValue] = useState("");
-
-  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
-  }, []);
-
-  const handleClear = useCallback(() => {
-    setValue("");
-  }, []);
 
   const columns = useMemo<ColumnDef<IUpworkFeedItemDTO>[]>(
     () => [
       {
         accessorKey: "title",
         header: () => (
-          <>
+          <Box sx={largeCellStyles}>
             <SortLabel
               headerTitle="Title"
-              isSorted={sortState.sortBy === "title" ? sortState.sortDirection : null}
-              onSortChange={() => handleSortChange("title")}
+              isSorted={
+                sortState.sortBy === UpworkFeedSortBy.Title ? sortState.sortDirection : null
+              }
+              onSortChange={() => handleSortChange(UpworkFeedSortBy.Title)}
             />
-            <TitleFilterInput value={value} handleChange={handleChange} handleClear={handleClear} />
-          </>
+            <TitleFilterInput />
+          </Box>
         ),
         cell: ({ row }) => <TitleCell title={row.original.title} url={row.original.url} />,
       },
       {
         accessorKey: "published",
         header: () => (
-          <>
+          <Box sx={mediumCellStyles}>
             <SortLabel
               headerTitle="Published"
-              isSorted={sortState.sortBy === "published" ? sortState.sortDirection : null}
-              onSortChange={() => handleSortChange("published")}
+              isSorted={
+                sortState.sortBy === UpworkFeedSortBy.Published ? sortState.sortDirection : null
+              }
+              onSortChange={() => handleSortChange(UpworkFeedSortBy.Published)}
             />
-            <Box sx={{ height: "44px", border: "1px solid black", borderRadius: "8px" }}>Input</Box>
-          </>
+            <DateSelector />
+          </Box>
         ),
         cell: ({ row }) => <DateCell date={row.original.published} />,
       },
       {
         accessorKey: "keywords",
         header: () => (
-          <>
+          <Box sx={largeCellStyles}>
             <Box sx={headerTextWrapper}>Keywords</Box>
-            <Box sx={{ height: "44px", border: "1px solid black", borderRadius: "8px" }}>Input</Box>
-          </>
+            <OptionSelector options={keywordOptions} filterKey={UpworkFeedSearchBy.Keywords} />
+          </Box>
         ),
         cell: ({ row }) => <KeywordsCell keywords={row.original.keywords} />,
       },
       {
         accessorKey: "score",
         header: () => (
-          <>
+          <Box sx={mediumCellStyles}>
             <SortLabel
               headerTitle="Score"
-              isSorted={sortState.sortBy === "score" ? sortState.sortDirection : null}
-              onSortChange={() => handleSortChange("score")}
+              isSorted={
+                sortState.sortBy === UpworkFeedSortBy.Score ? sortState.sortDirection : null
+              }
+              onSortChange={() => handleSortChange(UpworkFeedSortBy.Score)}
             />
-            <Box sx={{ height: "44px", border: "1px solid black", borderRadius: "8px" }}>Input</Box>
-          </>
+            <OptionSelector options={scoreOptions} filterKey={UpworkFeedSearchBy.Score} />
+          </Box>
         ),
         cell: ({ row }) => <ScoreCell score={row.original.score} />,
       },
@@ -155,21 +148,21 @@ export const UpworkFeedTable = () => {
         cell: ({ row }) => <NumberCell value={row.original.matchedBlogs} />,
       },
     ],
-    [sortState, value, handleChange, handleClear]
+    [sortState]
   );
 
   const table = useReactTable({
-    data,
+    data: items,
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
 
   return (
-    <TableContainer sx={tableContainerStyles}>
+    <TableContainer sx={tableContainerStyles} className="scrollbar">
       <Table sx={tablestyles}>
-        <TableHead>
+        <TableHead sx={tableHeaderStyles}>
           {table.getHeaderGroups().map(headerGroup => (
-            <TableRow key={headerGroup.id} sx={tableHeadStyles}>
+            <TableRow key={headerGroup.id}>
               {headerGroup.headers.map(header => {
                 return (
                   <TableCell key={header.id} colSpan={header.colSpan}>
@@ -180,20 +173,30 @@ export const UpworkFeedTable = () => {
             </TableRow>
           ))}
         </TableHead>
-        <TableBody>
-          {table.getRowModel().rows.map(row => {
-            return (
-              <TableRow key={row.id} sx={tableRowStyles}>
-                {row.getVisibleCells().map(cell => {
-                  return (
-                    <TableCell key={cell.id} sx={tableRowCellStyles}>
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                    </TableCell>
-                  );
-                })}
-              </TableRow>
-            );
-          })}
+        <TableBody sx={tableBodyStyles}>
+          {items.length === 0 ? (
+            <TableRow>
+              <Box sx={messageBoxStyles}>No results found</Box>
+            </TableRow>
+          ) : (
+            table.getRowModel().rows.map(row => {
+              return (
+                <TableRow
+                  key={row.id}
+                  sx={tableRowStyles}
+                  onClick={() => navigate(`/upwork-feeds/${row.original.id}`)}
+                >
+                  {row.getVisibleCells().map(cell => {
+                    return (
+                      <TableCell key={cell.id} sx={tableRowCellStyles}>
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      </TableCell>
+                    );
+                  })}
+                </TableRow>
+              );
+            })
+          )}
         </TableBody>
       </Table>
     </TableContainer>

@@ -1,8 +1,7 @@
 import { Theme } from "@mui/material";
 
 export const tableContainerStyles = {
-  width: "100%",
-  height: "100%",
+  overflow: "hidden",
 };
 
 export const tablestyles = {
@@ -12,17 +11,28 @@ export const tablestyles = {
     width: "auto",
     verticalAlign: "top",
   },
+  "& .MuiTableCell-head": {
+    borderBottom: "2px solid",
+    borderColor: "gray.300",
+  },
 };
 
-export const tableHeadStyles = {
-  borderBottom: "2px solid",
-  borderColor: "gray.300",
+export const tableHeaderStyles = {
+  display: "flex",
+  height: "116px",
 };
 
 export const tableRowStyles = {
-  height: "auto",
+  height: "108px",
   borderBottom: "1px solid",
   borderColor: "gray.800",
+  cursor: "pointer",
+  "&:hover": {
+    backgroundColor: "blue.100",
+  },
+  "&:active": {
+    backgroundColor: "blue.A300",
+  },
 };
 
 export const tableRowCellStyles = {
@@ -65,23 +75,50 @@ export const linkStyles = {
   textDecoration: "none",
 };
 
+export const linkWrapperStyles = {
+  padding: "8px 4px",
+  width: "262px",
+};
+
 export const chipStyles = {
   padding: "2px 8px",
   width: "content-fit",
   borderRadius: "20px",
+  backgroundColor: "gray.200",
 };
 
-export const keywordStyles = {
-  ...chipStyles,
-  backgroundColor: "gray.200",
+export const keywordsWrapperStyles = {
+  display: "flex",
+  flexWrap: "wrap",
+  gap: "4px",
+  width: "262px",
+  padding: "6px 0",
+  fontSize: "14px",
+  lineHeight: "20px",
+};
+
+export const scoreWrapperStyles = {
+  display: "flex",
+  flexWrap: "wrap",
+  width: "124px",
+  padding: "6px 0",
+  fontSize: "14px",
+  lineHeight: "20px",
 };
 
 export const getScoreStyles = (color: string) => ({
   ...chipStyles,
+  fontWeight: 500,
   backgroundColor: color,
 });
 
-export const titleInputStyles = (theme: Theme) => {
+export const largeCellStyles = { width: "262px" };
+
+export const mediumCellStyles = { width: "124px" };
+
+export const smallCellStyles = { width: "94px" };
+
+export const tableInputStyles = (theme: Theme) => {
   return {
     height: "44px",
     padding: "8px 12px",
@@ -121,8 +158,19 @@ export const titleInputStyles = (theme: Theme) => {
   };
 };
 
-export const largeCellStyles = { width: "262px" };
+export const tableBodyStyles = {
+  display: "block",
+  height: "calc(100vh - 316px)",
+  overflowY: "auto",
+};
 
-export const mediumCellStyles = { width: "124px" };
-
-export const smallCellStyles = { width: "94px" };
+export const messageBoxStyles = {
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  width: "1056px",
+  height: "calc(100vh - 316px)",
+  fontSize: "1.25rem",
+  fontWeight: 600,
+  color: "gray.700",
+};

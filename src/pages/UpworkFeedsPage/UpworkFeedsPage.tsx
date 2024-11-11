@@ -1,126 +1,77 @@
-import {
-  Divider,
-  FormControl,
-  MenuItem,
-  Pagination,
-  Select,
-  SelectChangeEvent,
-  Typography,
-} from "@mui/material";
+import { useEffect } from "react";
 import Box from "@mui/material/Box";
-import {
-  boldTextStyles,
-  defaultPaginationStyles,
-  itemsPageStyles,
-  itemsShownWrapper,
-  opacityTextStyles,
-  pageItemsWrapper,
-  paginationContainerStyles,
-  paginationDividerStyles,
-  tableWrapperStyles,
-  upworkFeedContainer,
-} from "./UpworkFeedsPageStyles";
-import { useEffect, useState } from "react";
-import { itemsPerPageOptions } from "../../constants";
-import { useSearchParams } from "react-router-dom";
-import { FeedControlPanel } from "../../components";
-import { formControlStyles } from "../../theme";
-import { UpworkFeedTable } from "../../components/UpworkFeedTable/UpworkFeedTable";
+
+import { FeedControlPanel, Loader, TablePagination, UpworkFeedTable } from "../../components";
+
+import { useUniversalSearchParams } from "../../hooks";
+import { useFetchFeedsQuery } from "../../services";
+import { getParsedOptions } from "../../heplers";
+import { upworkFeedContainer } from "./UpworkFeedsPageStyles";
+import { UpworkFeedSearchBy } from "../../interfaces-submodule/enums/upwork-feed/upwork-feed-search-by.enum";
+import { UpworkFeedSortBy } from "../../interfaces-submodule/enums/upwork-feed/upwork-feed-sort-by.enum";
+import { SortDirection } from "../../interfaces-submodule/enums/common/sort-direction.enum";
 
 const UpworkFeedsPage = () => {
-  const totalItems = 100;
+  const { searchParams, setParam } = useUniversalSearchParams();
 
-  const [searchParams, setSearchParams] = useSearchParams();
-  const initialPage = Number(searchParams.get("page")) || 1;
-  const initialItemsPerPage = Number(searchParams.get("items")) || 10;
+  const pageNumber = Number(searchParams.get("page"));
+  const pageSize = Number(searchParams.get("limit"));
+  const titleSearch = searchParams.get("title");
+  const dateSearch = searchParams.get("published");
+  const keywordsSearch = searchParams.get("keywords");
+  const scoreSearch = searchParams.get("score");
+  const sortBy = searchParams.get("sortBy");
+  const sortDirection = searchParams.get("sortDirection");
 
-  const [page, setPage] = useState(initialPage);
-  const [itemsPerPage, setItemsPerPage] = useState(initialItemsPerPage);
+  const params = {
+    ...(pageSize && { pageSize }),
+    ...(pageNumber && { pageNumber }),
+    searchParameters: [
+      ...(titleSearch ? [{ searchQuery: titleSearch, searchBy: UpworkFeedSearchBy.Title }] : []),
+      ...(dateSearch ? [{ searchQuery: dateSearch, searchBy: UpworkFeedSearchBy.Published }] : []),
+      ...(keywordsSearch
+        ? [{ searchQuery: getParsedOptions(keywordsSearch), searchBy: UpworkFeedSearchBy.Keywords }]
+        : []),
+      ...(scoreSearch
+        ? [{ searchQuery: getParsedOptions(scoreSearch), searchBy: UpworkFeedSearchBy.Score }]
+        : []),
+    ],
+    ...(sortBy &&
+      sortDirection && {
+        sortDirection: sortDirection as SortDirection,
+        sortBy: sortBy as UpworkFeedSortBy,
+      }),
+  };
 
   useEffect(() => {
-    setSearchParams({
-      page: String(page),
-      items: String(itemsPerPage),
-    });
-  }, [page, itemsPerPage, setSearchParams]);
+    if (!searchParams.get("page") && !searchParams.get("limit")) {
+      setParam("page", 1);
+      setParam("limit", 10);
+    }
+  }, [searchParams, setParam]);
 
-  const handlePageChange = (_: unknown, value: number) => {
-    setPage(value);
-  };
-
-  const handleItemsPerPageChange = (event: SelectChangeEvent<number>) => {
-    setItemsPerPage(Number(event.target.value));
-    setPage(1);
-  };
-
-  const pageCount = Math.ceil(totalItems / itemsPerPage);
-  const startIndex = (page - 1) * itemsPerPage + 1;
-  const endIndex = Math.min(page * itemsPerPage, totalItems);
+  const { data, isFetching, isLoading, refetch } = useFetchFeedsQuery(params, {
+    refetchOnMountOrArgChange: true,
+  });
 
   return (
-    <Box component="section" sx={upworkFeedContainer}>
-      <FeedControlPanel />
-      <Box sx={tableWrapperStyles}>
-        <UpworkFeedTable />
-        <Box sx={paginationContainerStyles}>
-          <Box sx={itemsShownWrapper}>
-            <Typography variant="body2" sx={opacityTextStyles}>
-              Items shown:
-            </Typography>
-            <Typography variant="body2" sx={boldTextStyles}>
-              {startIndex}-{endIndex}
-            </Typography>
-            out of
-            <Typography variant="body2" sx={boldTextStyles}>
-              {totalItems}
-            </Typography>
-          </Box>
-          <Divider orientation="vertical" sx={paginationDividerStyles} />
-          <Box sx={pageItemsWrapper}>
-            <Typography sx={opacityTextStyles}>Items per page</Typography>
-            <FormControl sx={formControlStyles}>
-              <Select
-                value={itemsPerPage}
-                onChange={handleItemsPerPageChange}
-                sx={itemsPageStyles}
-                MenuProps={{
-                  PaperProps: {
-                    sx: {
-                      borderRadius: "6px",
-                      width: "100px",
-                    },
-                  },
-                  anchorOrigin: {
-                    vertical: "top",
-                    horizontal: "center",
-                  },
-                  transformOrigin: {
-                    vertical: "bottom",
-                    horizontal: "center",
-                  },
-                }}
-              >
-                {Object.entries(itemsPerPageOptions).map(([value, label]) => (
-                  <MenuItem key={value} value={value}>
-                    {label}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Box>
-          {pageCount > 1 && (
-            <Pagination
-              count={pageCount}
-              page={page}
-              onChange={handlePageChange}
-              showFirstButton
-              showLastButton
-              sx={defaultPaginationStyles}
-            />
-          )}
-        </Box>
+    <>
+      <Box component="section" sx={upworkFeedContainer}>
+        <FeedControlPanel refetch={refetch} />
+        {data && (
+          <>
+            <UpworkFeedTable items={data.items.items} />
+            {data.items.items.length !== 0 && (
+              <TablePagination
+                totalItems={data.items.totalCount}
+                totalPages={data.items.totalPages}
+              />
+            )}
+          </>
+        )}
       </Box>
-    </Box>
+      {(isLoading || isFetching) && <Loader />}
+    </>
   );
 };
 
