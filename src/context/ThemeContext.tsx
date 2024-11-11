@@ -32,6 +32,17 @@ const ThemeContextProvider: FC<IThemeContextProviderProps> = ({ children }) => {
     localStorage.setItem("isSidebarOpen", isSidebarOpen.toString());
   }, [isSidebarOpen]);
 
+  useEffect(() => {
+    const body = document.body;
+    if (themeMode === ThemeMode.LIGHT) {
+      body.classList.add("light-theme");
+      body.classList.remove("dark-theme");
+    } else {
+      body.classList.add("dark-theme");
+      body.classList.remove("light-theme");
+    }
+  }, [themeMode]);
+
   const toggleTheme = () => {
     setThemeMode(prevMode => (prevMode === ThemeMode.LIGHT ? ThemeMode.DARK : ThemeMode.LIGHT));
   };

@@ -31,3 +31,46 @@ body {
   font-family: "Poppins", sans-serif;
   line-height: 1.5;
 }
+
+/* Scrollbar styles */
+body.light-theme .scrollbar {
+  --thumb-color: #b0b3b8;
+  --track-color: transparent;
+}
+
+body.dark-theme .scrollbar {
+  --thumb-color: #70737a;
+  --track-color: transparent;
+}
+
+.scrollbar {
+  overflow: auto;
+  scrollbar-color: var(--thumb-color) var(--track-color) !important;
+}
+
+/* Chrome, Safari, Edge */
+@supports selector(::-webkit-scrollbar) {
+  .scrollbar::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .scrollbar::-webkit-scrollbar-track {
+    background: var(--track-color);
+    border-radius: 4px;
+    margin-block: 4px;
+    margin-inline-start: 20px;
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb {
+    background: var(--thumb-color);
+    border-radius: 4px;
+  }
+}
+
+/* Firefox */
+@-moz-document url-prefix() {
+  .scrollbar {
+    scrollbar-width: thin;
+  }
+}
