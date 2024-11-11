@@ -62,10 +62,7 @@ const UpworkFeedsPage = () => {
           <>
             <UpworkFeedTable items={data.items.items} />
             {data.items.items.length !== 0 && (
-              <TablePagination
-                totalItems={data.items.totalCount}
-                totalPages={data.items.totalPages}
-              />
+              <TablePagination totalItems={data.items.totalCount} />
             )}
           </>
         )}

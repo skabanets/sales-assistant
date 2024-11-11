@@ -1,13 +1,13 @@
-import { FC, useEffect, useState } from "react";
+import { FC } from "react";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
 import FormControl from "@mui/material/FormControl";
 import MenuItem from "@mui/material/MenuItem";
 import Pagination from "@mui/material/Pagination";
 import Typography from "@mui/material/Typography";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
+import Select from "@mui/material/Select";
 
-import { useUniversalSearchParams } from "../../hooks";
+import { usePagination } from "../../hooks";
 import { itemsPerPageOptions } from "../../constants";
 import {
   boldTextStyles,
@@ -23,35 +23,18 @@ import { formControlStyles } from "../../theme";
 
 export interface ITablePaginationProps {
   totalItems: number;
-  totalPages: number;
 }
 
-export const TablePagination: FC<ITablePaginationProps> = ({ totalItems, totalPages }) => {
-  const { searchParams, setParam } = useUniversalSearchParams();
-
-  const initialPage = Number(searchParams.get("page")) || 1;
-  const initialItemsPerPage = Number(searchParams.get("limit")) || 10;
-
-  const [page, setPage] = useState(initialPage);
-  const [itemsPerPage, setItemsPerPage] = useState(initialItemsPerPage);
-
-  const startIndex = (page - 1) * itemsPerPage + 1;
-  const endIndex = Math.min(page * itemsPerPage, totalItems);
-
-  useEffect(() => {
-    setPage(initialPage);
-  }, [initialPage, itemsPerPage]);
-
-  const handlePageChange = (_: unknown, value: number) => {
-    setPage(value);
-    setParam("page", value);
-  };
-
-  const handleItemsPerPageChange = (event: SelectChangeEvent<number>) => {
-    const limit = event.target.value;
-    setItemsPerPage(Number(limit));
-    setParam("limit", limit);
-  };
+export const TablePagination: FC<ITablePaginationProps> = ({ totalItems }) => {
+  const {
+    page,
+    itemsPerPage,
+    totalPages,
+    startIndex,
+    endIndex,
+    handlePageChange,
+    handleItemsPerPageChange,
+  } = usePagination({ totalItems });
 
   return (
     <Box sx={paginationContainerStyles}>
