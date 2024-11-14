@@ -45,13 +45,9 @@ export const darkTheme = createTheme({
     fontWeightBold: 600,
     h1: {
       color: "#EBECF0",
+      fontSize: "24px",
       fontWeight: 500,
-    },
-    h2: {
-      color: "#C9CED6",
-      fontSize: "14px",
-      fontWeight: 600,
-      lineHeight: "20px",
+      lineHeight: "32px",
     },
   },
   components: {

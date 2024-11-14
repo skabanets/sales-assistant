@@ -45,13 +45,9 @@ export const lightTheme = createTheme({
     fontWeightBold: 600,
     h1: {
       color: "#252733",
+      fontSize: "24px",
       fontWeight: 500,
-    },
-    h2: {
-      color: "#414752",
-      fontSize: "14px",
-      fontWeight: 600,
-      lineHeight: "20px",
+      lineHeight: "32px",
     },
   },
   components: {
