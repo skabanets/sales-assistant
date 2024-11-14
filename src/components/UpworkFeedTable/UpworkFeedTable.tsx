@@ -1,6 +1,6 @@
 import { FC, useEffect, useMemo, useState } from "react";
 import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -42,6 +42,7 @@ export interface IUpworkFeedTableProps {
 
 export const UpworkFeedTable: FC<IUpworkFeedTableProps> = ({ items }) => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { searchParams, setParam } = useUniversalSearchParams();
 
   const initialSortState = {
@@ -184,7 +185,9 @@ export const UpworkFeedTable: FC<IUpworkFeedTableProps> = ({ items }) => {
                 <TableRow
                   key={row.id}
                   sx={tableRowStyles}
-                  onClick={() => navigate(`/upwork-feeds/${row.original.id}`)}
+                  onClick={() =>
+                    navigate(`/upwork-feeds/${row.original.id}`, { state: { from: location } })
+                  }
                 >
                   {row.getVisibleCells().map(cell => {
                     return (
