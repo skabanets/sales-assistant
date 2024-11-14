@@ -49,6 +49,12 @@ export const lightTheme = createTheme({
       fontWeight: 500,
       lineHeight: "32px",
     },
+    h2: {
+      color: "#414752",
+      fontSize: "14px",
+      fontWeight: 600,
+      lineheight: "20px",
+    },
   },
   components: {
     MuiCssBaseline: {
