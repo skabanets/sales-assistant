@@ -1,5 +1,5 @@
 export const titleContainerStyles = {
-  maxWidth: "1120px",
+  width: "1120px",
   height: "100%",
   display: "flex",
   padding: "8px 32px",
