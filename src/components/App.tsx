@@ -10,8 +10,9 @@ import { useRecoverUserQuery } from "../services";
 
 const AuthPage = lazy(() => import("../pages/AuthPage/AuthPage"));
 const UpworkFeedPage = lazy(() => import("../pages/UpworkFeedsPage/UpworkFeedsPage"));
-const FeedPage = lazy(() => import("../pages/FeedPage"));
-const ChatPage = lazy(() => import("../pages/ChatPage"));
+const VacancyPage = lazy(() => import("../pages/VacancyPage/VacancyPage"));
+const ChatPage = lazy(() => import("../pages/ChatPage/ChatPage"));
+const SingleChatPage = lazy(() => import("../pages/SingleChatPage/SingleChatPage"));
 
 export const App = () => {
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
@@ -55,7 +56,15 @@ export const App = () => {
           path="/upwork-feeds/:id"
           element={
             <PrivateRoute>
-              <FeedPage />
+              <VacancyPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/chats"
+          element={
+            <PrivateRoute>
+              <ChatPage />
             </PrivateRoute>
           }
         />
@@ -63,7 +72,7 @@ export const App = () => {
           path="/chats/:id"
           element={
             <PrivateRoute>
-              <ChatPage />
+              <SingleChatPage />
             </PrivateRoute>
           }
         />
