@@ -19,3 +19,4 @@ export * from "./FeedControlPanel/FeedControlPanel";
 export * from "./TablePagination/TablePagination";
 export * from "./UpworkFeedTable/UpworkFeedTable";
 export * from "./VacancyTitle/VacancyTitle";
+export * from "./ProjectInfo/ProjectInfo";
