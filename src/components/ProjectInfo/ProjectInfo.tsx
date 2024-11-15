@@ -18,6 +18,7 @@ import {
   linkStyles,
   shortDescriptionStyles,
 } from "./ProjectInfoStyles";
+import { vacancyBlockContainerStyles } from "../../theme";
 
 interface IProjectInfoProps {
   url: string;
@@ -49,7 +50,7 @@ export const ProjectInfo: FC<IProjectInfoProps> = ({
   }, [description]);
 
   return (
-    <>
+    <Box sx={vacancyBlockContainerStyles}>
       <Box sx={infoTitleStyles}>
         <Typography variant="h2">Project info</Typography>
       </Box>
@@ -81,6 +82,6 @@ export const ProjectInfo: FC<IProjectInfoProps> = ({
           </Link>
         )}
       </Box>
-    </>
+    </Box>
   );
 };
