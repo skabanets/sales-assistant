@@ -5,16 +5,3 @@ export const infoWrapperStyles = {
   alignItems: "flex-start",
   gap: "16px",
 };
-
-export const blockContainerStyles = {
-  display: "flex",
-  padding: "0px 8px",
-  flexDirection: "column",
-  alignItems: "stretch",
-  justifyContent: "center",
-  margin: "0 auto",
-  borderRadius: "16px",
-  border: "1px solid",
-  borderColor: "gray.300",
-  width: "800px",
-};
