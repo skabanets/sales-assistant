@@ -1,12 +1,13 @@
 import { FC, useEffect, useRef, useState } from "react";
-import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Chip from "@mui/material/Chip";
 import Link from "@mui/material/Link";
+import Box from "@mui/material/Box";
 
 import { getFormattedDate, getScoreColor } from "../../heplers";
 import {
   dataWrapperStyles,
+  dateBlockStyles,
   descriptionBlockStyles,
   expandLinkStyles,
   fullDescriptionStyles,
@@ -63,7 +64,7 @@ export const ProjectInfo: FC<IProjectInfoProps> = ({
             {title}
           </Link>
         </Box>
-        <Box sx={infoBlockStyles}>
+        <Box sx={dateBlockStyles}>
           <Typography color="gray.700">{getFormattedDate(published)}</Typography>
         </Box>
       </Box>

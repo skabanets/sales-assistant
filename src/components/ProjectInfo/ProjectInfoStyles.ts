@@ -26,6 +26,7 @@ export const linkBlockStyles = {
 
 export const dateBlockStyles = {
   ...infoBlockStyles,
+  whiteSpace: "nowrap",
   letterSpacing: "0.4px",
 };
 
