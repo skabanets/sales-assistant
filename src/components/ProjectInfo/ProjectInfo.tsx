@@ -5,6 +5,7 @@ import Link from "@mui/material/Link";
 import Box from "@mui/material/Box";
 
 import { getFormattedDate, getScoreColor } from "../../heplers";
+import { infoTitleStyles, vacancyBlockContainerStyles } from "../../theme";
 import {
   dataWrapperStyles,
   dateBlockStyles,
@@ -13,12 +14,10 @@ import {
   fullDescriptionStyles,
   getScoreInfoStyles,
   infoBlockStyles,
-  infoTitleStyles,
   linkBlockStyles,
   linkStyles,
   shortDescriptionStyles,
 } from "./ProjectInfoStyles";
-import { vacancyBlockContainerStyles } from "../../theme";
 
 interface IProjectInfoProps {
   url: string;

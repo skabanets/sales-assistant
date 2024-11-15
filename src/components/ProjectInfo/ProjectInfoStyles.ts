@@ -1,11 +1,3 @@
-export const infoTitleStyles = {
-  display: "flex",
-  padding: "16px 8px 8px 8px",
-  flexDirection: "column",
-  alignItems: "flex-start",
-  alignSelf: "stretch",
-};
-
 export const dataWrapperStyles = {
   display: "flex",
 };
