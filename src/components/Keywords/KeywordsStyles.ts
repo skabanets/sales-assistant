@@ -26,6 +26,7 @@ export const keywordsWrapperStyles = {
   alignContent: "flex-start",
   gap: "4px",
   flexWrap: "wrap",
+  width: "100%",
 };
 
 export const keywordsStyles = {
