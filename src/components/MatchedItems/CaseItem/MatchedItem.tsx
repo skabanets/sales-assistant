@@ -25,7 +25,7 @@ interface IMatchedItemProps {
 export const MatchedItem: FC<IMatchedItemProps> = ({ item, type }) => {
   const keysToRender = type === MatchedItemType.CASES ? CASES_KEYS : BLOGS_KEYS;
 
-  const maxShortHeight = 6 * 1.42 * 14;
+  const maxShortHeight = 6 * 1.43 * 14;
   const { isOpen, showExpand, toggleOpen, contentRef } = useExpandableText({
     content: item.content,
     maxShortHeight,
