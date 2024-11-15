@@ -49,6 +49,14 @@ export const formControlStyles = {
   },
 };
 
+export const infoTitleStyles = {
+  display: "flex",
+  padding: "16px 8px 8px 8px",
+  flexDirection: "column",
+  alignItems: "flex-start",
+  alignSelf: "stretch",
+};
+
 export const vacancyBlockContainerStyles = {
   display: "flex",
   padding: "0px 8px",

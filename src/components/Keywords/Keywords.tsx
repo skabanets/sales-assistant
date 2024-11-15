@@ -1,11 +1,14 @@
-import { Box, Button, Chip, Typography } from "@mui/material";
-import { infoTitleStyles } from "../ProjectInfo/ProjectInfoStyles";
-import { CustomIcon } from "../../components";
-
 import { FC } from "react";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Chip from "@mui/material/Chip";
+import Typography from "@mui/material/Typography";
+
+import { CustomIcon } from "../../components";
 
 import { ReviewType } from "../../interfaces-submodule/enums/upwork-feed/review-type.enum";
 import { IReview } from "../../types";
+import { infoTitleStyles, vacancyBlockContainerStyles } from "../../theme";
 import {
   emotionBtnStyles,
   emotionButtonWrapperStyles,
@@ -13,7 +16,6 @@ import {
   keywordsStyles,
   keywordsWrapperStyles,
 } from "./KeywordsStyles";
-import { vacancyBlockContainerStyles } from "../../theme";
 
 interface IKeywordsProps {
   keywords: string[];
