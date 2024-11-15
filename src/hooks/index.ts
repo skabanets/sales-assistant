@@ -6,3 +6,4 @@ export * from "./useEditChatForm";
 export * from "./useMenu";
 export * from "./useUniversalSearchParams";
 export * from "./usePagination";
+export * from "./useExpandableText";

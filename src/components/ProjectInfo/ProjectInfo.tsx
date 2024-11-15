@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef, useState } from "react";
+import { FC } from "react";
 import Typography from "@mui/material/Typography";
 import Chip from "@mui/material/Chip";
 import Link from "@mui/material/Link";
@@ -18,6 +18,7 @@ import {
   linkStyles,
   shortDescriptionStyles,
 } from "./ProjectInfoStyles";
+import { useExpandableText } from "../../hooks";
 
 interface IProjectInfoProps {
   url: string;
@@ -34,19 +35,12 @@ export const ProjectInfo: FC<IProjectInfoProps> = ({
   published,
   score,
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [showExpand, setShowExpand] = useState(false);
-  const descriptionRef = useRef<HTMLDivElement | null>(null);
   const scoreColor = getScoreColor(score);
-
-  useEffect(() => {
-    const maxShortHeight = 6 * 1.5 * 16;
-
-    if (descriptionRef.current) {
-      const descriptionHeight = descriptionRef.current.scrollHeight;
-      setShowExpand(descriptionHeight > maxShortHeight);
-    }
-  }, [description]);
+  const maxShortHeight = 6 * 1.5 * 16;
+  const { isOpen, showExpand, toggleOpen, contentRef } = useExpandableText({
+    content: description,
+    maxShortHeight,
+  });
 
   return (
     <Box sx={vacancyBlockContainerStyles}>
@@ -69,14 +63,11 @@ export const ProjectInfo: FC<IProjectInfoProps> = ({
         </Box>
       </Box>
       <Box sx={descriptionBlockStyles}>
-        <Box
-          ref={descriptionRef}
-          sx={{ ...(isOpen ? fullDescriptionStyles : shortDescriptionStyles) }}
-        >
+        <Box ref={contentRef} sx={{ ...(isOpen ? fullDescriptionStyles : shortDescriptionStyles) }}>
           {description}
         </Box>
         {showExpand && (
-          <Link onClick={() => setIsOpen(!isOpen)} sx={expandLinkStyles}>
+          <Link onClick={toggleOpen} sx={expandLinkStyles}>
             {isOpen ? "Collapse" : "Expand"}
           </Link>
         )}
