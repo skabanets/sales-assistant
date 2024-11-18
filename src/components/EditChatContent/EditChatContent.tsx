@@ -6,6 +6,7 @@ import TextField from "@mui/material/TextField";
 
 import { useEditChatForm } from "../../hooks";
 import { IChatItem } from "../../interfaces-submodule/interfaces/dto/chat/dto/ichat-item";
+import { IEditChatRequest } from "../../interfaces-submodule/interfaces/dto/chat/dto/iedit-chat-request.interface";
 import {
   chatModalBtnStyles,
   chatModalBtnWrapperStyles,
@@ -19,10 +20,15 @@ import { fieldWrapperStyles } from "../../theme";
 interface IEditChatContentProps {
   chat: IChatItem;
   toggleModal: () => void;
+  onEdit: (id: number, data: IEditChatRequest) => void;
 }
 
-export const EditChatContent: FC<IEditChatContentProps> = ({ chat, toggleModal }) => {
-  const { register, handleSubmit, onSubmit, setValue, errors } = useEditChatForm();
+export const EditChatContent: FC<IEditChatContentProps> = ({ chat, toggleModal, onEdit }) => {
+  const { register, handleSubmit, onSubmit, setValue, errors } = useEditChatForm({
+    chat,
+    toggleModal,
+    onEdit,
+  });
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
