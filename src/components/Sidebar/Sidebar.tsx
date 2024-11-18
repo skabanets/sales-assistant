@@ -6,20 +6,17 @@ import Typography from "@mui/material/Typography";
 
 import { ChatsList, CustomIcon, UserMenu } from "../../components";
 
+import { useFetchChatsQuery } from "../../services";
+import { navLinkStyles } from "../../theme";
 import {
   addChatBtnWrapper,
   chatMenuStyles,
   feedsNavLinkStyles,
   mainMenuStyles,
 } from "./SidebarStyles";
-import { navLinkStyles } from "../../theme";
 
 export const Sidebar = () => {
-  const chats = [
-    { id: 1, name: "Hi there! How can I help you? I help you?", accountId: 15 },
-    { id: 2, name: "Hi there! How can I help you? I help you?", accountId: 15 },
-    { id: 3, name: "Hi there! How can I help you? I help you?", accountId: 15 },
-  ];
+  const { data: chats, refetch } = useFetchChatsQuery();
 
   return (
     <>
@@ -30,7 +27,7 @@ export const Sidebar = () => {
             New chat
           </Button>
         </Box>
-        <ChatsList chats={chats} />
+        {chats && <ChatsList chats={chats} refetch={refetch} />}
       </Box>
       <Box sx={mainMenuStyles}>
         <ListItemButton

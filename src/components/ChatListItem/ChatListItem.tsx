@@ -15,6 +15,8 @@ import {
 } from "../../components";
 
 import { IChatItem } from "../../interfaces-submodule/interfaces/dto/chat/dto/ichat-item";
+import { IEditChatRequest } from "../../interfaces-submodule/interfaces/dto/chat/dto/iedit-chat-request.interface";
+import { useDeleteChatMutation, useEditChatMutation } from "../../services";
 import { useMenu, useModal } from "../../hooks";
 import { navLinkStyles } from "../../theme";
 import {
@@ -26,9 +28,10 @@ import {
 
 interface IChatListItem {
   chat: IChatItem;
+  refetch: () => void;
 }
 
-export const ChatListItem: FC<IChatListItem> = ({ chat }) => {
+export const ChatListItem: FC<IChatListItem> = ({ chat, refetch }) => {
   const [isOpenEditModal, toggleEditModal] = useModal();
   const [isOpenDeleteModal, toggleDeleteModal] = useModal();
   const { setAnchorEl, open, handleClick, handleClose } = useMenu();
@@ -36,14 +39,37 @@ export const ChatListItem: FC<IChatListItem> = ({ chat }) => {
   const modalRef = useRef<HTMLDivElement>(null);
   const listItemRef = useRef<HTMLAnchorElement>(null);
 
+  const [deleteChat] = useDeleteChatMutation();
+  const [editChat] = useEditChatMutation();
+
   const handleOpenModal = (toggle: () => void) => {
     handleClose();
     toggle();
   };
 
+  const handleDeleteChat = async (id: number) => {
+    try {
+      await deleteChat({ id }).unwrap();
+      refetch();
+      toggleDeleteModal();
+    } catch (error) {
+      console.error("Failed to delete chat:", error);
+    }
+  };
+
+  const handleEditChat = async (id: number, data: IEditChatRequest) => {
+    try {
+      await editChat({ id, data }).unwrap();
+      refetch();
+      toggleEditModal();
+    } catch (error) {
+      console.error("Failed to edit chat:", error);
+    }
+  };
+
   return (
     <>
-      {!isOpenEditModal && !isOpenDeleteModal && (
+      {!isOpenEditModal && (
         <Box>
           <ListItemButton
             ref={listItemRef}
@@ -112,7 +138,7 @@ export const ChatListItem: FC<IChatListItem> = ({ chat }) => {
       )}
       {isOpenEditModal && (
         <SidebarModal toggleModal={toggleEditModal} modalRef={modalRef}>
-          <EditChatContent chat={chat} toggleModal={toggleEditModal} />
+          <EditChatContent chat={chat} toggleModal={toggleEditModal} onEdit={handleEditChat} />
         </SidebarModal>
       )}
       {isOpenDeleteModal && (
@@ -121,7 +147,11 @@ export const ChatListItem: FC<IChatListItem> = ({ chat }) => {
           toggleModal={toggleDeleteModal}
           title="Delete chat"
         >
-          <DeleteChatContent chat={chat} toggleModal={toggleDeleteModal} />
+          <DeleteChatContent
+            chat={chat}
+            toggleModal={toggleDeleteModal}
+            onDelete={handleDeleteChat}
+          />
         </CenterScreenModal>
       )}
     </>

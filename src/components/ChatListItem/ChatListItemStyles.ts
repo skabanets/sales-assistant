@@ -6,6 +6,7 @@ export const chatTitleStyles = {
   whiteSpace: "nowrap",
   overflow: "hidden",
   textOverflow: "ellipsis",
+  flex: 1,
 };
 
 export const moreButtonStyles = {

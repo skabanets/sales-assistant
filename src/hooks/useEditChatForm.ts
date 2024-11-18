@@ -3,8 +3,15 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 import { IEditChatRequest } from "../interfaces-submodule/interfaces/dto/chat/dto/iedit-chat-request.interface";
 import { editChatFormSchema } from "../schemas";
+import { IChatItem } from "../interfaces-submodule/interfaces/dto/chat/dto/ichat-item";
 
-export const useEditChatForm = () => {
+interface IUseEditChatFormProps {
+  chat: IChatItem;
+  toggleModal: () => void;
+  onEdit: (id: number, data: IEditChatRequest) => void;
+}
+
+export const useEditChatForm = ({ chat, toggleModal, onEdit }: IUseEditChatFormProps) => {
   const {
     register,
     handleSubmit,
@@ -16,7 +23,12 @@ export const useEditChatForm = () => {
   });
 
   const onSubmit = (data: IEditChatRequest) => {
-    console.log(data);
+    if (chat.name === data.name) {
+      toggleModal();
+      return;
+    }
+
+    onEdit(chat.id, data);
   };
 
   return {
