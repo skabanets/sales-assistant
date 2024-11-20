@@ -44,4 +44,7 @@ export const mainStyles = {
   gridArea: "main",
   margin: "0 auto",
   height: "calc(100vh - 72px)",
+  width: "100%",
+  display: "flex",
+  justifyContent: "center",
 };
