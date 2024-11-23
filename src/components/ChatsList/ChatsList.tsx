@@ -8,13 +8,12 @@ import { chatsListStyles } from "./ChatsListStyles";
 
 interface IChatsListProps {
   chats: IChatItem[];
-  refetch: () => void;
 }
 
-export const ChatsList: FC<IChatsListProps> = ({ chats, refetch }) => {
+export const ChatsList: FC<IChatsListProps> = ({ chats }) => {
   return (
-    <List sx={chatsListStyles}>
-      {chats && chats.map(chat => <ChatListItem key={chat.id} chat={chat} refetch={refetch} />)}
+    <List sx={chatsListStyles} className="scrollbar">
+      {chats && chats.map(chat => <ChatListItem key={chat.id} chat={chat} />)}
     </List>
   );
 };

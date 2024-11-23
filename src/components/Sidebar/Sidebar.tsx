@@ -1,4 +1,5 @@
-import { NavLink } from "react-router-dom";
+import { useEffect } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -6,7 +7,9 @@ import Typography from "@mui/material/Typography";
 
 import { ChatsList, CustomIcon, UserMenu } from "../../components";
 
-import { useFetchChatsQuery } from "../../services";
+import { chatsApi } from "../../services";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import { selectChats } from "../../redux";
 import { navLinkStyles } from "../../theme";
 import {
   addChatBtnWrapper,
@@ -16,18 +19,24 @@ import {
 } from "./SidebarStyles";
 
 export const Sidebar = () => {
-  const { data: chats, refetch } = useFetchChatsQuery();
+  const chats = useAppSelector(selectChats);
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(chatsApi.endpoints.fetchChats.initiate());
+  }, []);
 
   return (
     <>
       <Box sx={chatMenuStyles}>
         <Box sx={addChatBtnWrapper}>
-          <Button variant="outlined" type="button">
+          <Button variant="outlined" type="button" onClick={() => navigate("/chats")}>
             <CustomIcon iconName="plus" />
             New chat
           </Button>
         </Box>
-        {chats && <ChatsList chats={chats} refetch={refetch} />}
+        {chats && <ChatsList chats={chats} />}
       </Box>
       <Box sx={mainMenuStyles}>
         <ListItemButton
