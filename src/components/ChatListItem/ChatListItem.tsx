@@ -16,8 +16,8 @@ import {
 
 import { IChatItem } from "../../interfaces-submodule/interfaces/dto/chat/dto/ichat-item";
 import { IEditChatRequest } from "../../interfaces-submodule/interfaces/dto/chat/dto/iedit-chat-request.interface";
-import { useDeleteChatMutation, useEditChatMutation } from "../../services";
-import { useMenu, useModal } from "../../hooks";
+import { chatsApi } from "../../services";
+import { useAppDispatch, useMenu, useModal } from "../../hooks";
 import { navLinkStyles } from "../../theme";
 import {
   chatItemStyles,
@@ -28,10 +28,9 @@ import {
 
 interface IChatListItem {
   chat: IChatItem;
-  refetch: () => void;
 }
 
-export const ChatListItem: FC<IChatListItem> = ({ chat, refetch }) => {
+export const ChatListItem: FC<IChatListItem> = ({ chat }) => {
   const [isOpenEditModal, toggleEditModal] = useModal();
   const [isOpenDeleteModal, toggleDeleteModal] = useModal();
   const { setAnchorEl, open, handleClick, handleClose } = useMenu();
@@ -39,8 +38,7 @@ export const ChatListItem: FC<IChatListItem> = ({ chat, refetch }) => {
   const modalRef = useRef<HTMLDivElement>(null);
   const listItemRef = useRef<HTMLAnchorElement>(null);
 
-  const [deleteChat] = useDeleteChatMutation();
-  const [editChat] = useEditChatMutation();
+  const dispatch = useAppDispatch();
 
   const handleOpenModal = (toggle: () => void) => {
     handleClose();
@@ -49,8 +47,7 @@ export const ChatListItem: FC<IChatListItem> = ({ chat, refetch }) => {
 
   const handleDeleteChat = async (id: number) => {
     try {
-      await deleteChat({ id }).unwrap();
-      refetch();
+      await dispatch(chatsApi.endpoints.deleteChat.initiate({ id })).unwrap();
       toggleDeleteModal();
     } catch (error) {
       console.error("Failed to delete chat:", error);
@@ -59,8 +56,7 @@ export const ChatListItem: FC<IChatListItem> = ({ chat, refetch }) => {
 
   const handleEditChat = async (id: number, data: IEditChatRequest) => {
     try {
-      await editChat({ id, data }).unwrap();
-      refetch();
+      await dispatch(chatsApi.endpoints.editChat.initiate({ id, data })).unwrap();
       toggleEditModal();
     } catch (error) {
       console.error("Failed to edit chat:", error);
