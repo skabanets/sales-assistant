@@ -7,3 +7,4 @@ export * from "./useMenu";
 export * from "./useUniversalSearchParams";
 export * from "./usePagination";
 export * from "./useExpandableText";
+export * from "./useChatInput";
