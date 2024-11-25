@@ -22,3 +22,5 @@ export * from "./VacancyTitle/VacancyTitle";
 export * from "./ProjectInfo/ProjectInfo";
 export * from "./Keywords/Keywords";
 export * from "./MatchedItems/MatchedItems";
+export * from "./ChatInput/ChatInput";
+export * from "./ChatMessage/ChatMessage";
