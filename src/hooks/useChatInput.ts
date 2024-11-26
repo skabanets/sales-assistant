@@ -21,6 +21,10 @@ export const useChatInput = (chatId?: number) => {
   const onSubmit = useCallback(
     async (data: ISendMessageRequest) => {
       try {
+        if (!data.content.trim()) {
+          return;
+        }
+
         if (!chatId) {
           const response = await dispatch(
             chatsApi.endpoints.createChat.initiate({ name: data.content.slice(0, 40) })
