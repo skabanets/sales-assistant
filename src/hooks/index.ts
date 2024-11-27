@@ -8,3 +8,5 @@ export * from "./useUniversalSearchParams";
 export * from "./usePagination";
 export * from "./useExpandableText";
 export * from "./useChatInput";
+export * from "./useChatMessages";
+export * from "./useAutoScroll";
