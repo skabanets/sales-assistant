@@ -8,7 +8,7 @@ import IconButton from "@mui/material/IconButton";
 import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
 
-import { CustomIcon } from "../../components";
+import { CustomIcon, NotificationMessage } from "../../components";
 
 import { useLoginForm } from "../../hooks";
 import {
@@ -21,11 +21,12 @@ import {
 import { fieldWrapperStyles } from "../../theme";
 
 export const LoginForm = () => {
-  const { showPassword, handleClickShowPassword, register, handleSubmit, onSubmit, errors } =
+  const { showPassword, handleClickShowPassword, register, handleSubmit, onSubmit, errors, error } =
     useLoginForm();
 
   return (
     <Box component="form" sx={formStyles} onSubmit={handleSubmit(onSubmit)}>
+      {error && <NotificationMessage text={error} />}
       <Button variant="outlined" type="button">
         <CustomIcon iconName="microsoft-logo" />
         Continue with Microsoft
