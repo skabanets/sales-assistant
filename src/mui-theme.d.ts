@@ -24,6 +24,10 @@ declare module "@mui/material/styles/createPalette" {
       midHigh: string;
       high: string;
     };
+    errors: {
+      200: string;
+      600: string;
+    };
   }
 
   interface PaletteOptions {
@@ -48,6 +52,10 @@ declare module "@mui/material/styles/createPalette" {
       mid?: string;
       midHigh?: string;
       high?: string;
+    };
+    errors?: {
+      200?: string;
+      600?: string;
     };
   }
 }

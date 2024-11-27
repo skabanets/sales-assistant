@@ -37,6 +37,10 @@ export const lightTheme = createTheme({
       midHigh: "#C9F0C9",
       high: "#C4E5F5",
     },
+    errors: {
+      200: "#FAE1E5",
+      600: "#CC0022",
+    },
   },
   typography: {
     fontFamily: "Poppins, sans-serif",

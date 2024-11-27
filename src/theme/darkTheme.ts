@@ -37,6 +37,10 @@ export const darkTheme = createTheme({
       midHigh: "#2D662D",
       high: "#295266",
     },
+    errors: {
+      200: "#3D2B2E",
+      600: "#CC6677",
+    },
   },
   typography: {
     fontFamily: "Poppins, sans-serif",
