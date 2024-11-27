@@ -21,7 +21,6 @@ const chatSlice = createSlice({
         state.chats = payload;
       })
       .addMatcher(chatsApi.endpoints.createChat.matchFulfilled, (state, { payload }) => {
-        console.log(payload, "ADD");
         state.chats.unshift(payload);
       })
       .addMatcher(chatsApi.endpoints.deleteChat.matchFulfilled, (state, { meta }) => {
