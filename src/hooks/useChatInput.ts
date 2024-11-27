@@ -6,7 +6,10 @@ import { chatsApi, useSendMessageMutation } from "../services";
 import { useAppDispatch } from "../hooks";
 import { ISendMessageRequest } from "../interfaces-submodule/interfaces/dto/message/isend-message-request.interface";
 
-export const useChatInput = (chatId?: number) => {
+export const useChatInput = (
+  sendNewMessage?: ({ chatId, content }: ISendMessageRequest) => void,
+  chatId?: number
+) => {
   const [isFocused, setIsFocused] = useState(false);
   const [sendMessage] = useSendMessageMutation();
 
@@ -20,20 +23,30 @@ export const useChatInput = (chatId?: number) => {
 
   const onSubmit = useCallback(
     async (data: ISendMessageRequest) => {
+      if (!data.content.trim()) return;
+
       try {
-        if (!data.content.trim()) {
-          return;
-        }
+        let chatResponse;
 
         if (!chatId) {
-          const response = await dispatch(
+          chatResponse = await dispatch(
             chatsApi.endpoints.createChat.initiate({ name: data.content.slice(0, 40) })
           ).unwrap();
+          if (chatResponse) {
+            navigate(`/chats/${chatResponse.id}`);
+          }
+        }
 
-          await sendMessage({ chatId: response.id, content: data.content });
-          navigate(`/chats/${response.id}`);
-        } else {
-          await sendMessage({ chatId, content: data.content });
+        await sendMessage({
+          chatId: chatId ?? chatResponse?.id,
+          content: data.content,
+        }).unwrap();
+
+        if (sendNewMessage) {
+          sendNewMessage({
+            chatId: chatId ?? chatResponse?.id,
+            content: data.content,
+          });
         }
 
         reset();
@@ -41,7 +54,7 @@ export const useChatInput = (chatId?: number) => {
         console.error("Failed to send message:", error);
       }
     },
-    [chatId, dispatch, navigate, reset, sendMessage]
+    [chatId, dispatch, navigate, reset, sendMessage, sendNewMessage]
   );
 
   return {
