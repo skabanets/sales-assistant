@@ -1,7 +1,7 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 
 import { authenticatedBaseQuery } from "../services";
-import { IMessageDTO } from "./../interfaces-submodule/interfaces/dto/message/imessage-dto";
+import { IMessageDTO } from "../interfaces-submodule/interfaces/dto/message/imessage-dto";
 import { ISendMessageRequest } from "../interfaces-submodule/interfaces/dto/message/isend-message-request.interface";
 
 export const messagesApi = createApi({
