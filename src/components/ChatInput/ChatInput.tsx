@@ -6,6 +6,7 @@ import TextField from "@mui/material/TextField";
 import { CustomIcon } from "../../components";
 
 import { useChatInput } from "../../hooks";
+import { ISendMessageRequest } from "../../interfaces-submodule/interfaces/dto/message/isend-message-request.interface";
 import {
   chatTextFieldStyles,
   inputFieldWrapperStyles,
@@ -15,12 +16,15 @@ import {
 } from "./ChatInputStyles";
 
 interface IChatInput {
+  sendNewMessage?: ({ chatId, content }: ISendMessageRequest) => void;
   chatId?: number;
 }
 
-export const ChatInput: FC<IChatInput> = ({ chatId }) => {
-  const { isFocused, handleFocus, handleBlur, register, handleSubmit, onSubmit } =
-    useChatInput(chatId);
+export const ChatInput: FC<IChatInput> = ({ sendNewMessage, chatId }) => {
+  const { isFocused, handleFocus, handleBlur, register, handleSubmit, onSubmit } = useChatInput(
+    sendNewMessage,
+    chatId
+  );
 
   return (
     <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={inputFieldWrapperStyles(isFocused)}>
