@@ -1,5 +1,5 @@
 import { FC, useRef } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Menu from "@mui/material/Menu";
 import Button from "@mui/material/Button";
@@ -17,7 +17,7 @@ import {
 import { IChatItem } from "../../interfaces-submodule/interfaces/dto/chat/dto/ichat-item";
 import { IEditChatRequest } from "../../interfaces-submodule/interfaces/dto/chat/dto/iedit-chat-request.interface";
 import { chatsApi } from "../../services";
-import { useAppDispatch, useMenu, useModal } from "../../hooks";
+import { useAppDispatch, useAppSelector, useMenu, useModal } from "../../hooks";
 import { navLinkStyles } from "../../theme";
 import {
   chatItemStyles,
@@ -25,6 +25,7 @@ import {
   chatTitleStyles,
   moreButtonStyles,
 } from "./ChatListItemStyles";
+import { selectChats } from "../../redux";
 
 interface IChatListItem {
   chat: IChatItem;
@@ -37,6 +38,8 @@ export const ChatListItem: FC<IChatListItem> = ({ chat }) => {
 
   const modalRef = useRef<HTMLDivElement>(null);
   const listItemRef = useRef<HTMLAnchorElement>(null);
+  const chats = useAppSelector(selectChats);
+  const navigate = useNavigate();
 
   const dispatch = useAppDispatch();
 
@@ -47,8 +50,20 @@ export const ChatListItem: FC<IChatListItem> = ({ chat }) => {
 
   const handleDeleteChat = async (id: number) => {
     try {
+      const chatIndex = chats.findIndex(chat => chat.id === id);
+
       await dispatch(chatsApi.endpoints.deleteChat.initiate({ id })).unwrap();
       toggleDeleteModal();
+
+      if (chats.length > 1) {
+        if (chatIndex === 0) {
+          navigate(`/chats/${chats[1].id}`);
+        } else {
+          navigate(`/chats/${chats[chatIndex - 1].id}`);
+        }
+      } else {
+        navigate("/chats");
+      }
     } catch (error) {
       console.error("Failed to delete chat:", error);
     }
