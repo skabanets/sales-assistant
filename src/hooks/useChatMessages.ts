@@ -29,7 +29,16 @@ export const useChatMessages = (
 
   useEffect(() => {
     const handleMessageReceived = (data: IMessageDTO) => {
-      setChatMessages(prevState => [...prevState, data]);
+      setChatMessages(prevState => {
+        if (
+          prevState.some(
+            message => message.created === data.created && message.content === data.content
+          )
+        ) {
+          return prevState;
+        }
+        return [...prevState, data];
+      });
       setIsPending(false);
     };
 
