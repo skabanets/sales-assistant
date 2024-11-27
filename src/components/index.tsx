@@ -24,3 +24,4 @@ export * from "./Keywords/Keywords";
 export * from "./MatchedItems/MatchedItems";
 export * from "./ChatInput/ChatInput";
 export * from "./ChatMessage/ChatMessage";
+export * from "./NotificationMessage/NotificationMessage";
