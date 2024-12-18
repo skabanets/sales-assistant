@@ -12,7 +12,7 @@ import {
   chatModalBtnWrapperStyles,
   chatModalWrapperStyles,
   chatNameInputStyles,
-  editChatFromStyles,
+  editChatFormStyles,
   errorMessageStyles,
 } from "./EditChatContentStyles";
 import { fieldWrapperStyles } from "../../theme";
@@ -40,7 +40,7 @@ export const EditChatContent: FC<IEditChatContentProps> = ({ chat, toggleModal, 
 
   return (
     <Box sx={chatModalWrapperStyles}>
-      <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={editChatFromStyles}>
+      <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={editChatFormStyles}>
         <Box sx={fieldWrapperStyles}>
           <TextField
             type="text"
