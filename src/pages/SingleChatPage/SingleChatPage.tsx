@@ -6,11 +6,7 @@ import { ChatInput, ChatMessage } from "../../components";
 
 import { selectUserInfo } from "../../redux";
 import { useAppSelector, useAutoScroll, useChatMessages } from "../../hooks";
-import {
-  chatMessagesListStyles,
-  chatPageStyles,
-  inputBlockStyles,
-} from "../ChatPage/ChatPageStyles";
+import { chatMessagesListStyles, chatPageStyles, inputBlockStyles } from "./SingleChatPageStyles";
 
 const SingleChatPage = () => {
   const { id } = useParams();
