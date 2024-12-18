@@ -1,12 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-import { authReducer, chatReducer } from "../redux";
+import { authReducer, chatReducer, filterReducer } from "../redux";
 import { authApi, chatsApi, messagesApi, upworkFeedsApi } from "../services";
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
     chats: chatReducer,
+    filter: filterReducer,
     [authApi.reducerPath]: authApi.reducer,
     [upworkFeedsApi.reducerPath]: upworkFeedsApi.reducer,
     [chatsApi.reducerPath]: chatsApi.reducer,
