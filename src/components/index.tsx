@@ -25,3 +25,4 @@ export * from "./MatchedItems/MatchedItems";
 export * from "./ChatInput/ChatInput";
 export * from "./ChatMessage/ChatMessage";
 export * from "./NotificationMessage/NotificationMessage";
+export * from "./CreateChatModal/CreateChatModal";
