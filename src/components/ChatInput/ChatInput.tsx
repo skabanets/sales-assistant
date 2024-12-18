@@ -16,8 +16,8 @@ import {
 } from "./ChatInputStyles";
 
 interface IChatInput {
-  sendNewMessage?: ({ chatId, content }: ISendMessageRequest) => void;
-  chatId?: number;
+  sendNewMessage: ({ chatId, content }: ISendMessageRequest) => void;
+  chatId: number;
 }
 
 export const ChatInput: FC<IChatInput> = ({ sendNewMessage, chatId }) => {
