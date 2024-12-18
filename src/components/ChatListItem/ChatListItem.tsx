@@ -50,19 +50,23 @@ export const ChatListItem: FC<IChatListItem> = ({ chat }) => {
 
   const handleDeleteChat = async (id: number) => {
     try {
-      const chatIndex = chats.findIndex(chat => chat.id === id);
+      const currentChatId = parseInt(window.location.pathname.split("/").pop() || "", 10);
 
       await dispatch(chatsApi.endpoints.deleteChat.initiate({ id })).unwrap();
       toggleDeleteModal();
 
-      if (chats.length > 1) {
-        if (chatIndex === 0) {
-          navigate(`/chats/${chats[1].id}`);
+      if (id === currentChatId) {
+        if (chats.length > 1) {
+          const chatIndex = chats.findIndex(chat => chat.id === id);
+
+          if (chatIndex === 0) {
+            navigate(`/chats/${chats[1].id}`);
+          } else {
+            navigate(`/chats/${chats[chatIndex - 1].id}`);
+          }
         } else {
-          navigate(`/chats/${chats[chatIndex - 1].id}`);
+          navigate("/upwork-feeds");
         }
-      } else {
-        navigate("/chats");
       }
     } catch (error) {
       console.error("Failed to delete chat:", error);
