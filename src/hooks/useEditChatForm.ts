@@ -1,8 +1,8 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
+import { chatFormSchema } from "../schemas";
 import { IEditChatRequest } from "../interfaces-submodule/interfaces/dto/chat/dto/iedit-chat-request.interface";
-import { editChatFormSchema } from "../schemas";
 import { IChatItem } from "../interfaces-submodule/interfaces/dto/chat/dto/ichat-item";
 
 interface IUseEditChatFormProps {
@@ -19,7 +19,7 @@ export const useEditChatForm = ({ chat, toggleModal, onEdit }: IUseEditChatFormP
     formState: { errors },
   } = useForm<IEditChatRequest>({
     mode: "onSubmit",
-    resolver: yupResolver(editChatFormSchema),
+    resolver: yupResolver(chatFormSchema),
   });
 
   const onSubmit = (data: IEditChatRequest) => {

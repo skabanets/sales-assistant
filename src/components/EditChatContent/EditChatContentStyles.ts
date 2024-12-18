@@ -7,7 +7,7 @@ export const chatModalWrapperStyles = {
   gap: "12px",
 };
 
-export const editChatFromStyles = {
+export const editChatFormStyles = {
   display: "flex",
   flexDirection: "column",
   gap: "12px",
