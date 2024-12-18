@@ -12,7 +12,7 @@ import { UpworkFeedSortBy } from "../../interfaces-submodule/enums/upwork-feed/u
 import { SortDirection } from "../../interfaces-submodule/enums/common/sort-direction.enum";
 
 const UpworkFeedsPage = () => {
-  const { searchParams, setParam } = useUniversalSearchParams();
+  const { searchParams, setParam, resetParams } = useUniversalSearchParams();
 
   const pageNumber = Number(searchParams.get("page"));
   const pageSize = Number(searchParams.get("limit"));
@@ -57,7 +57,7 @@ const UpworkFeedsPage = () => {
   return (
     <>
       <Box component="section" sx={upworkFeedContainer}>
-        <FeedControlPanel refetch={refetch} />
+        <FeedControlPanel refetch={refetch} resetParams={resetParams} />
         {data && (
           <>
             <UpworkFeedTable items={data.items.items} />

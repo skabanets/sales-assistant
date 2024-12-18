@@ -8,6 +8,8 @@ import Select from "@mui/material/Select";
 import { CustomIcon } from "../../components";
 
 import { itNetworkingOptions } from "../../constants";
+import { clearFilter, disableFilterState } from "../../redux";
+import { useAppDispatch } from "../../hooks";
 import {
   controlPanelStyles,
   itNetworkSelectStyles,
@@ -17,9 +19,19 @@ import { formControlStyles } from "../../theme";
 
 interface IFeedControlPanelProps {
   refetch: () => void;
+  resetParams: () => void;
 }
 
-export const FeedControlPanel: FC<IFeedControlPanelProps> = ({ refetch }) => {
+export const FeedControlPanel: FC<IFeedControlPanelProps> = ({ refetch, resetParams }) => {
+  const dispatch = useAppDispatch();
+
+  const handleRefresh = () => {
+    resetParams();
+    dispatch(clearFilter());
+    refetch();
+    dispatch(disableFilterState());
+  };
+
   return (
     <Box sx={controlPanelStyles}>
       <FormControl sx={formControlStyles}>
@@ -50,7 +62,7 @@ export const FeedControlPanel: FC<IFeedControlPanelProps> = ({ refetch }) => {
           ))}
         </Select>
       </FormControl>
-      <Button variant="outlined" sx={refreshBtnStyles} onClick={refetch}>
+      <Button variant="outlined" sx={refreshBtnStyles} onClick={handleRefresh}>
         <CustomIcon iconName="refresh" />
         Refresh RSS
       </Button>
