@@ -3,8 +3,8 @@ import DatePicker from "react-datepicker";
 import { isValid } from "date-fns";
 import { useTheme } from "@mui/material/styles";
 
-import { useUniversalSearchParams } from "../../../hooks";
-import { getFormattedDate } from "../../../heplers";
+import { useAppSelector, useUniversalSearchParams } from "../../../hooks";
+import { selectFilterState } from "../../../redux";
 import "react-datepicker/dist/react-datepicker.css";
 import "./datepicker.css";
 
@@ -12,8 +12,11 @@ export const DateSelector = () => {
   const { searchParams, setParam } = useUniversalSearchParams();
   const theme = useTheme();
 
+  const resetFilter = useAppSelector(selectFilterState);
+
   const initialDateString = searchParams.get("published");
-  const [date, setDate] = useState<Date | null>(null);
+  const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
 
   useEffect(() => {
     const root = document.documentElement;
@@ -29,24 +32,45 @@ export const DateSelector = () => {
 
   useEffect(() => {
     if (initialDateString) {
-      const parsedDate = new Date(initialDateString);
-      if (isValid(parsedDate)) {
-        setDate(parsedDate);
+      const [start, end] = initialDateString.split(" - ");
+      const parsedStartDate = new Date(start);
+      const parsedEndDate = new Date(end);
+
+      if (isValid(parsedStartDate) && isValid(parsedEndDate)) {
+        setStartDate(parsedStartDate);
+        setEndDate(parsedEndDate);
       }
     }
   }, []);
 
-  const handleDateChange = (date: Date | null) => {
-    const formattedDate = date ? getFormattedDate(date.toString(), true) : "";
-    setParam("published", formattedDate);
-    setDate(date);
+  useEffect(() => {
+    if (resetFilter) {
+      setStartDate(null);
+      setEndDate(null);
+    }
+  }, [resetFilter]);
+
+  const handleDateChange = (dates: [Date | null, Date | null]) => {
+    const [start, end] = dates;
+
+    setStartDate(start);
+    setEndDate(end);
+
+    if (start && end) {
+      const formattedStartDate = start instanceof Date ? start.toISOString() : "";
+      const formattedEndDate = end instanceof Date ? end.toISOString() : "";
+
+      setParam("published", `${formattedStartDate} - ${formattedEndDate}`);
+    }
   };
 
   return (
     <DatePicker
-      selected={date}
-      onSelect={handleDateChange}
+      selected={startDate ?? undefined}
       onChange={handleDateChange}
+      startDate={startDate ?? undefined}
+      endDate={endDate ?? undefined}
+      selectsRange
       fixedHeight={true}
       maxDate={new Date()}
       calendarStartDay={1}
