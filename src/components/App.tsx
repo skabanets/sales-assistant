@@ -11,7 +11,6 @@ import { useRecoverUserQuery } from "../services";
 const AuthPage = lazy(() => import("../pages/AuthPage/AuthPage"));
 const UpworkFeedPage = lazy(() => import("../pages/UpworkFeedsPage/UpworkFeedsPage"));
 const VacancyPage = lazy(() => import("../pages/VacancyPage/VacancyPage"));
-const ChatPage = lazy(() => import("../pages/ChatPage/ChatPage"));
 const SingleChatPage = lazy(() => import("../pages/SingleChatPage/SingleChatPage"));
 
 export const App = () => {
@@ -57,14 +56,6 @@ export const App = () => {
           element={
             <PrivateRoute>
               <VacancyPage />
-            </PrivateRoute>
-          }
-        />
-        <Route
-          path="/chats"
-          element={
-            <PrivateRoute>
-              <ChatPage />
             </PrivateRoute>
           }
         />
