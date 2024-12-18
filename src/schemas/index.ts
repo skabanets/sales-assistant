@@ -1,2 +1,2 @@
 export * from "./loginFormSchema";
-export * from "./editChatFormSchema";
+export * from "./chatFormSchema";
