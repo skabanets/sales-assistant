@@ -1,6 +1,6 @@
 import * as yup from "yup";
 
-export const editChatFormSchema = yup.object().shape({
+export const chatFormSchema = yup.object().shape({
   name: yup
     .string()
     .required("This field is required")
