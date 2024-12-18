@@ -26,13 +26,6 @@ export const tableRowStyles = {
   height: "108px",
   borderBottom: "1px solid",
   borderColor: "gray.800",
-  cursor: "pointer",
-  "&:hover": {
-    backgroundColor: "blue.100",
-  },
-  "&:active": {
-    backgroundColor: "blue.A300",
-  },
 };
 
 export const tableRowCellStyles = {
@@ -73,6 +66,7 @@ export const ordinaryTextStyles = {
 export const linkStyles = {
   lineHeight: "20px",
   textDecoration: "none",
+  cursor: "pointer",
 };
 
 export const linkWrapperStyles = {

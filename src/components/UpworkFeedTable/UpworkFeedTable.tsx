@@ -1,6 +1,5 @@
 import { FC, useEffect, useMemo } from "react";
 import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
-import { useLocation, useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -15,11 +14,11 @@ import { DateSelector } from "./DateSelector/DateSelector";
 import { OptionSelector } from "./OptionSelector/OptionSelector";
 import { DateCell, KeywordsCell, NumberCell, ScoreCell, TitleCell } from "./TableCell";
 
+import { IUpworkResponseListFeedsDto } from "../../interfaces-submodule/interfaces/dto/upwork-feed/iupwork-response-list-feeds.dto";
 import { IUpworkFeedItemDTO } from "../../interfaces-submodule/interfaces/dto/upwork-feed/iupwork-feed-item.dto";
 import { UpworkFeedSearchBy } from "../../interfaces-submodule/enums/upwork-feed/upwork-feed-search-by.enum";
 import { UpworkFeedSortBy } from "../../interfaces-submodule/enums/upwork-feed/upwork-feed-sort-by.enum";
 import { SortDirection } from "../../interfaces-submodule/enums/common/sort-direction.enum";
-import { keywordOptions, scoreOptions } from "../../constants";
 import { useAppDispatch, useAppSelector, useUniversalSearchParams } from "../../hooks";
 import {
   headerTextWrapper,
@@ -35,15 +34,19 @@ import {
   tablestyles,
 } from "./UpworkFeedTableStyles";
 import { addSortParams, selectSortParams } from "../../redux";
+import { keywordOptions } from "../../constants";
 
 export interface IUpworkFeedTableProps {
-  items: IUpworkFeedItemDTO[];
+  data: IUpworkResponseListFeedsDto;
 }
 
-export const UpworkFeedTable: FC<IUpworkFeedTableProps> = ({ items }) => {
-  const navigate = useNavigate();
+export const UpworkFeedTable: FC<IUpworkFeedTableProps> = ({ data }) => {
+  const {
+    items: { items },
+    scoreOptions,
+  } = data;
+
   const dispatch = useAppDispatch();
-  const location = useLocation();
   const { searchParams, setParam } = useUniversalSearchParams();
 
   const sortState = useAppSelector(selectSortParams);
@@ -81,7 +84,7 @@ export const UpworkFeedTable: FC<IUpworkFeedTableProps> = ({ items }) => {
             <TitleFilterInput />
           </Box>
         ),
-        cell: ({ row }) => <TitleCell title={row.original.title} url={row.original.url} />,
+        cell: ({ row }) => <TitleCell title={row.original.title} id={row.original.id as string} />,
       },
       {
         accessorKey: "published",
@@ -169,13 +172,7 @@ export const UpworkFeedTable: FC<IUpworkFeedTableProps> = ({ items }) => {
           ) : (
             table.getRowModel().rows.map(row => {
               return (
-                <TableRow
-                  key={row.id}
-                  sx={tableRowStyles}
-                  onClick={() =>
-                    navigate(`/upwork-feeds/${row.original.id}`, { state: { from: location } })
-                  }
-                >
+                <TableRow key={row.id} sx={tableRowStyles}>
                   {row.getVisibleCells().map(cell => {
                     return (
                       <TableCell key={cell.id} sx={tableRowCellStyles}>

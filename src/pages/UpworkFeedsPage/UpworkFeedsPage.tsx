@@ -60,7 +60,7 @@ const UpworkFeedsPage = () => {
         <FeedControlPanel refetch={refetch} resetParams={resetParams} />
         {data && (
           <>
-            <UpworkFeedTable items={data.items.items} />
+            <UpworkFeedTable data={data} />
             {data.items.items.length !== 0 && (
               <TablePagination totalItems={data.items.totalCount} />
             )}
