@@ -10,3 +10,4 @@ export * from "./useExpandableText";
 export * from "./useChatInput";
 export * from "./useChatMessages";
 export * from "./useAutoScroll";
+export * from "./useCreateChatForm";
