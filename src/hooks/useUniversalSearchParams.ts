@@ -56,8 +56,22 @@ export const useUniversalSearchParams = () => {
     [updateSearchParams]
   );
 
+  const resetParams = useCallback(() => {
+    const updatedParams = new URLSearchParams();
+
+    const limit = searchParams.get("limit");
+    if (limit) {
+      updatedParams.set("limit", limit);
+    }
+
+    updatedParams.set("page", "1");
+
+    setSearchParams(updatedParams);
+  }, [searchParams, setSearchParams]);
+
   return {
     searchParams,
     setParam,
+    resetParams,
   };
 };

@@ -1,13 +1,14 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import Select, { MultiValue, SingleValue } from "react-select";
 import { useTheme } from "@mui/material";
 
 import { CustomOption } from "./CustomOption/CustomOption";
 import { CustomValueContainer } from "./CustomValueContainer/CustomValueContainer";
 
-import { useUniversalSearchParams } from "../../../hooks";
+import { useAppSelector, useUniversalSearchParams } from "../../../hooks";
 import { IOptionInterface } from "../../../interfaces-submodule/interfaces/dto/common/ioption.interface";
 import { UpworkFeedSearchBy } from "../../../interfaces-submodule/enums/upwork-feed/upwork-feed-search-by.enum";
+import { selectFilterState } from "../../../redux";
 
 interface IOptionSelectorProps {
   options: IOptionInterface[];
@@ -17,6 +18,8 @@ interface IOptionSelectorProps {
 export const OptionSelector: FC<IOptionSelectorProps> = ({ options, filterKey }) => {
   const theme = useTheme();
   const { searchParams, setParam } = useUniversalSearchParams();
+
+  const resetFilter = useAppSelector(selectFilterState);
 
   const allOption = { value: "all", label: "ALL" };
   const divider = { value: "divider", label: "divider", isDivider: true };
@@ -32,6 +35,13 @@ export const OptionSelector: FC<IOptionSelectorProps> = ({ options, filterKey })
 
   const [selectedOptions, setSelectedOptions] =
     useState<MultiValue<IOptionInterface>>(initialSelectedOptions);
+
+  useEffect(() => {
+    if (resetFilter) {
+      setSelectedOptions([]);
+      setParam(filterKey, "");
+    }
+  }, [resetFilter, filterKey, setParam]);
 
   const handleSelectChange = (
     newValue: MultiValue<IOptionInterface> | SingleValue<IOptionInterface>

@@ -1,4 +1,4 @@
-import { FC, useEffect, useMemo, useState } from "react";
+import { FC, useEffect, useMemo } from "react";
 import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { useLocation, useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
@@ -20,8 +20,7 @@ import { UpworkFeedSearchBy } from "../../interfaces-submodule/enums/upwork-feed
 import { UpworkFeedSortBy } from "../../interfaces-submodule/enums/upwork-feed/upwork-feed-sort-by.enum";
 import { SortDirection } from "../../interfaces-submodule/enums/common/sort-direction.enum";
 import { keywordOptions, scoreOptions } from "../../constants";
-import { useUniversalSearchParams } from "../../hooks";
-import { ISortOption } from "../../types";
+import { useAppDispatch, useAppSelector, useUniversalSearchParams } from "../../hooks";
 import {
   headerTextWrapper,
   largeCellStyles,
@@ -35,6 +34,7 @@ import {
   tableRowStyles,
   tablestyles,
 } from "./UpworkFeedTableStyles";
+import { addSortParams, selectSortParams } from "../../redux";
 
 export interface IUpworkFeedTableProps {
   items: IUpworkFeedItemDTO[];
@@ -42,40 +42,27 @@ export interface IUpworkFeedTableProps {
 
 export const UpworkFeedTable: FC<IUpworkFeedTableProps> = ({ items }) => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const location = useLocation();
   const { searchParams, setParam } = useUniversalSearchParams();
 
-  const initialSortState = {
-    sortBy: (searchParams.get("sortBy") as UpworkFeedSortBy) || null,
-    sortDirection: (searchParams.get("sortDirection") as SortDirection) || null,
-  };
-  const [sortState, setSortState] = useState<ISortOption>(initialSortState);
+  const sortState = useAppSelector(selectSortParams);
+
+  useEffect(() => {
+    const sortBy = (searchParams.get("sortBy") as UpworkFeedSortBy) || null;
+    const sortDirection = (searchParams.get("sortDirection") as SortDirection) || null;
+
+    if (sortBy && sortDirection) {
+      dispatch(addSortParams(sortBy));
+    }
+  }, []);
 
   useEffect(() => {
     setParam(sortState);
   }, [sortState]);
 
   const handleSortChange = (accessorKey: UpworkFeedSortBy) => {
-    setSortState(prevState => {
-      if (prevState.sortBy === accessorKey) {
-        const newDirection =
-          prevState.sortDirection === SortDirection.ASC
-            ? SortDirection.DESC
-            : prevState.sortDirection === SortDirection.DESC
-            ? null
-            : SortDirection.ASC;
-
-        return {
-          sortBy: newDirection ? accessorKey : null,
-          sortDirection: newDirection,
-        };
-      } else {
-        return {
-          sortBy: accessorKey,
-          sortDirection: SortDirection.ASC,
-        };
-      }
-    });
+    dispatch(addSortParams(accessorKey));
   };
 
   const columns = useMemo<ColumnDef<IUpworkFeedItemDTO>[]>(
