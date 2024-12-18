@@ -54,7 +54,7 @@ export const ProjectInfo: FC<IProjectInfoProps> = ({
           </Box>
         )}
         <Box sx={linkBlockStyles}>
-          <Link sx={linkStyles} href={url}>
+          <Link sx={linkStyles} href={url} target="_blank" rel="noopener noreferrer">
             {title}
           </Link>
         </Box>
